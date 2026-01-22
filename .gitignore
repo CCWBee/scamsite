@@ -94,3 +94,14 @@ htmlcov/
 # -----------------------------------------------------------------------------
 models/
 *.gguf
+
+# -----------------------------------------------------------------------------
+# Local documentation (keep local, not in repo)
+# -----------------------------------------------------------------------------
+README.md
+SPRINT_PLAN.md
+PRD-ScamAware-Jersey.md
+Technical-Spec-ScamAware-Chatbot.md
+claude.md
+CLAUDE.md
+frontend/README.md
