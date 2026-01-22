@@ -1,0 +1,164 @@
+{/* Introduction.mdx - ScamAware Jersey Design System Documentation */}
+
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Design System/Introduction" />
+
+# ScamAware Jersey Design System
+
+Welcome to the ScamAware Jersey design system documentation. This guide provides everything you need to build consistent, accessible, and trustworthy user interfaces for the ScamAware Jersey platform.
+
+## Project Overview
+
+**ScamAware Jersey** is an anti-scam awareness portal designed to help Jersey residents identify and protect themselves from scams. The platform features:
+
+- **Educational Content** - Informational pages on common scam types
+- **Visual Guides** - Infographics and warning sign guides
+- **AI Chatbot** - Intelligent assistant that assesses suspicious communications
+- **Emergency Resources** - Guidance for scam victims
+
+The design system ensures visual consistency with the Jersey Financial Services Commission (JFSC) branding, establishing institutional trust and credibility.
+
+---
+
+## Design Principles
+
+### 1. Trust & Credibility
+
+The design conveys authority and reliability through:
+- Official JFSC color palette (navy and trust-blue)
+- Clean, professional typography (Arial)
+- Consistent spacing and layout patterns
+
+### 2. Accessibility First
+
+All components meet WCAG 2.1 AA requirements:
+- Color contrast ratios exceed minimum thresholds
+- Keyboard navigation support throughout
+- Screen reader compatibility
+- Clear focus indicators
+
+### 3. Mobile-First Responsive
+
+Components are designed for mobile devices first, then enhanced for larger screens:
+- **320px** - Mobile phones (minimum supported width)
+- **768px** - Tablets
+- **1024px** - Desktops
+- **1440px** - Large displays
+
+### 4. Clarity Over Decoration
+
+In an anti-scam context, clear communication is paramount:
+- Minimal visual distractions
+- High-contrast text for readability
+- Obvious visual hierarchy
+- Clear calls-to-action
+
+### 5. Visual Warning System
+
+Consistent use of color for semantic meaning:
+- **Alert Red** (#c8102e) - Scam warnings, errors, danger
+- **Warning Yellow** (#ffc107) - Caution, attention needed
+- **Success Green** (#28a745) - Safe indicators, confirmations
+
+---
+
+## Getting Started
+
+### Installation
+
+The design system is built into the ScamAware Jersey frontend. After cloning the repository:
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Start Storybook
+npm run storybook
+```
+
+### Using Design Tokens
+
+Design tokens are available as TypeScript constants:
+
+```typescript
+import { colors, spacing, breakpoints } from '@/lib/design-tokens';
+
+// Access color values
+const primaryColor = colors.navy.DEFAULT;  // '#1a1f3d'
+const linkColor = colors['trust-blue'].DEFAULT;  // '#0066a1'
+
+// Access spacing values
+const padding = spacing[4];  // '1rem' (16px)
+```
+
+### Using Tailwind CSS Classes
+
+All design tokens are configured in Tailwind CSS:
+
+```jsx
+// Color utilities
+<div className="bg-navy text-white">Navy background</div>
+<a className="text-trust-blue hover:text-trust-blue-700">Link</a>
+<span className="text-alert-red">Warning text</span>
+
+// Spacing utilities
+<div className="p-4 mt-8 gap-6">Spaced content</div>
+
+// Responsive utilities
+<div className="text-base md:text-lg lg:text-xl">Responsive text</div>
+```
+
+---
+
+## Design Token Files
+
+The design system is defined across three synchronized files:
+
+| File | Purpose |
+|------|---------|
+| `tailwind.config.ts` | Tailwind CSS theme configuration |
+| `src/lib/design-tokens.ts` | TypeScript constants for programmatic access |
+| `src/app/globals.css` | CSS custom properties for global styles |
+
+**Important:** When updating design tokens, ensure all three files are updated to maintain consistency.
+
+---
+
+## Key Resources
+
+### Jersey Financial Services Commission (JFSC)
+
+- **Website:** jerseyfsc.org
+- **Phone:** +44 (0)1534 822000
+
+### Emergency Contacts
+
+- **Police Fraud Line:** 01534 612612
+- **Emergency Services:** 999
+
+---
+
+## Documentation Sections
+
+Explore the design system documentation:
+
+- **[Colors](/docs/design-system-colors--docs)** - Brand colors, semantic colors, and usage guidelines
+- **[Typography](/docs/design-system-typography--docs)** - Font families, sizes, weights, and line heights
+- **[Spacing](/docs/design-system-spacing--docs)** - Spacing scale and usage patterns
+- **[Breakpoints](/docs/design-system-breakpoints--docs)** - Responsive design breakpoints
+
+---
+
+## Contributing
+
+When adding new components or modifying the design system:
+
+1. Follow existing naming conventions
+2. Ensure WCAG 2.1 AA accessibility compliance
+3. Add Storybook stories for new components
+4. Update design token files consistently
+5. Test across all supported breakpoints

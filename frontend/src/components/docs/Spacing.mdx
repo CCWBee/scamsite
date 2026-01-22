@@ -1,0 +1,338 @@
+{/* Spacing.mdx - ScamAware Jersey Spacing System Documentation */}
+
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Design System/Spacing" />
+
+# Spacing
+
+The ScamAware Jersey spacing system is based on a 4px (0.25rem) base unit, ensuring consistent visual rhythm throughout the application. This scale provides predictable, harmonious spacing for margins, padding, and gaps.
+
+---
+
+## Spacing Scale
+
+The spacing scale follows Tailwind CSS conventions with custom additions for specific layout needs.
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px', marginBottom: '32px' }}>
+  {[
+    { key: 'px', value: '1px', pixels: '1px', desc: 'Hairline borders' },
+    { key: '0', value: '0', pixels: '0px', desc: 'No spacing' },
+    { key: '0.5', value: '0.125rem', pixels: '2px', desc: 'Minimal spacing' },
+    { key: '1', value: '0.25rem', pixels: '4px', desc: 'Tight spacing' },
+    { key: '1.5', value: '0.375rem', pixels: '6px', desc: 'Small gaps' },
+    { key: '2', value: '0.5rem', pixels: '8px', desc: 'Default small spacing' },
+    { key: '2.5', value: '0.625rem', pixels: '10px', desc: 'Between small and medium' },
+    { key: '3', value: '0.75rem', pixels: '12px', desc: 'Medium-small spacing' },
+    { key: '4', value: '1rem', pixels: '16px', desc: 'Base spacing unit' },
+    { key: '5', value: '1.25rem', pixels: '20px', desc: 'Comfortable spacing' },
+    { key: '6', value: '1.5rem', pixels: '24px', desc: 'Default component padding' },
+    { key: '8', value: '2rem', pixels: '32px', desc: 'Section spacing' },
+    { key: '10', value: '2.5rem', pixels: '40px', desc: 'Large spacing' },
+    { key: '12', value: '3rem', pixels: '48px', desc: 'Section margins' },
+    { key: '16', value: '4rem', pixels: '64px', desc: 'Page section gaps' },
+    { key: '18', value: '4.5rem', pixels: '72px', desc: 'Custom - header height' },
+    { key: '20', value: '5rem', pixels: '80px', desc: 'Large section spacing' },
+    { key: '24', value: '6rem', pixels: '96px', desc: 'Extra large spacing' },
+  ].map((item) => (
+    <div key={item.key} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '8px', backgroundColor: '#f9fafb', borderRadius: '6px' }}>
+      <span style={{ minWidth: '40px', fontSize: '12px', fontWeight: '600', fontFamily: 'monospace' }}>{item.key}</span>
+      <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>{item.value}</span>
+      <span style={{ minWidth: '50px', fontSize: '12px', color: '#6b7280' }}>({item.pixels})</span>
+      <div style={{ width: item.pixels, height: '24px', backgroundColor: '#0066a1', borderRadius: '2px', minWidth: '1px' }} />
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>{item.desc}</span>
+    </div>
+  ))}
+</div>
+
+---
+
+## Visual Scale Reference
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '24px', backgroundColor: '#f9fafb', borderRadius: '8px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '4px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>1 (4px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '8px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>2 (8px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '12px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>3 (12px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '16px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>4 (16px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '24px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>6 (24px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '32px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>8 (32px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '48px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>12 (48px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '64px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>16 (64px)</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div style={{ width: '96px', height: '32px', backgroundColor: '#0066a1', borderRadius: '2px' }} />
+    <span style={{ fontSize: '11px', fontFamily: 'monospace' }}>24 (96px)</span>
+  </div>
+</div>
+
+---
+
+## Usage Guidelines
+
+### When to Use Each Spacing Value
+
+| Scale | Pixels | Use Case |
+|-------|--------|----------|
+| `0.5-1` | 2-4px | Icon gaps, tight inline elements |
+| `2` | 8px | Button padding (small), tight gaps |
+| `3-4` | 12-16px | Default padding for small components, input fields |
+| `5-6` | 20-24px | Card padding, comfortable component spacing |
+| `8` | 32px | Section padding (mobile), card gaps |
+| `10-12` | 40-48px | Section margins, vertical rhythm |
+| `16-20` | 64-80px | Page section spacing |
+| `24` | 96px | Hero section padding, major page breaks |
+
+---
+
+## Spacing Patterns
+
+### Component Padding
+
+<div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginTop: '16px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+    <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '6px' }}>
+      <span style={{ color: 'white', fontSize: '14px' }}>Button (p-2)</span>
+    </div>
+    <span style={{ fontSize: '11px', color: '#6b7280' }}>Small: 8px</span>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+    <div style={{ padding: '12px 16px', backgroundColor: '#0066a1', borderRadius: '6px' }}>
+      <span style={{ color: 'white', fontSize: '14px' }}>Button (py-3 px-4)</span>
+    </div>
+    <span style={{ fontSize: '11px', color: '#6b7280' }}>Default: 12px/16px</span>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+    <div style={{ padding: '16px 24px', backgroundColor: '#0066a1', borderRadius: '6px' }}>
+      <span style={{ color: 'white', fontSize: '14px' }}>Button (py-4 px-6)</span>
+    </div>
+    <span style={{ fontSize: '11px', color: '#6b7280' }}>Large: 16px/24px</span>
+  </div>
+</div>
+
+### Card Padding
+
+<div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginTop: '16px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{ padding: '16px', backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div style={{ width: '120px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ fontSize: '12px', color: '#6b7280' }}>Compact Card</span>
+      </div>
+    </div>
+    <span style={{ fontSize: '11px', color: '#6b7280', textAlign: 'center' }}>p-4 (16px)</span>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{ padding: '24px', backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div style={{ width: '120px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ fontSize: '12px', color: '#6b7280' }}>Default Card</span>
+      </div>
+    </div>
+    <span style={{ fontSize: '11px', color: '#6b7280', textAlign: 'center' }}>p-6 (24px)</span>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{ padding: '32px', backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div style={{ width: '120px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ fontSize: '12px', color: '#6b7280' }}>Spacious Card</span>
+      </div>
+    </div>
+    <span style={{ fontSize: '11px', color: '#6b7280', textAlign: 'center' }}>p-8 (32px)</span>
+  </div>
+</div>
+
+### Stack Spacing (Vertical Rhythm)
+
+<div style={{ padding: '24px', backgroundColor: '#f9fafb', borderRadius: '8px', marginTop: '16px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '24px' }}>
+    <span style={{ fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>gap-1 (4px) - Tight</span>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 1</div>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 2</div>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 3</div>
+    </div>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '24px' }}>
+    <span style={{ fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>gap-4 (16px) - Default</span>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 1</div>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 2</div>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 3</div>
+    </div>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+    <span style={{ fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>gap-8 (32px) - Spacious</span>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 1</div>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 2</div>
+      <div style={{ padding: '8px', backgroundColor: '#0066a1', borderRadius: '4px', color: 'white', fontSize: '12px' }}>Item 3</div>
+    </div>
+  </div>
+</div>
+
+---
+
+## Responsive Spacing
+
+Spacing should adapt to screen size. Use responsive modifiers for optimal layouts.
+
+### Mobile-First Approach
+
+```jsx
+// Padding increases at larger screens
+<section className="p-4 md:p-6 lg:p-8">
+  Content with responsive padding
+</section>
+
+// Gap increases at larger screens
+<div className="flex flex-col gap-4 md:gap-6 lg:gap-8">
+  <Card />
+  <Card />
+  <Card />
+</div>
+
+// Margin increases at larger screens
+<div className="mt-8 md:mt-12 lg:mt-16">
+  Section with responsive margin
+</div>
+```
+
+### Responsive Spacing Patterns
+
+| Element | Mobile | Tablet (md) | Desktop (lg) |
+|---------|--------|-------------|--------------|
+| Page padding | `p-4` (16px) | `p-6` (24px) | `p-8` (32px) |
+| Section margin | `my-8` (32px) | `my-12` (48px) | `my-16` (64px) |
+| Card gap | `gap-4` (16px) | `gap-6` (24px) | `gap-8` (32px) |
+| Container padding | `px-4` (16px) | `px-6` (24px) | `px-8` (32px) |
+
+---
+
+## Special Spacing Tokens
+
+### Component-Specific Values
+
+```typescript
+// Design token values for specific components
+spacing: {
+  'header': '4.5rem',  // 72px - Header/navigation height
+  'footer': '15rem',   // 240px - Footer height
+  '18': '4.5rem',      // 72px - Page section padding
+  '22': '5.5rem',      // 88px - Extra large section padding
+}
+```
+
+### Usage Example
+
+```jsx
+// Header-aware content positioning
+<main className="pt-header">
+  Main content with header offset
+</main>
+
+// Section with custom spacing
+<section className="py-18 lg:py-22">
+  Large section content
+</section>
+```
+
+---
+
+## Container Configuration
+
+The container has built-in responsive padding:
+
+```typescript
+container: {
+  center: true,
+  padding: {
+    DEFAULT: '1rem',   // 16px on mobile
+    sm: '1.5rem',      // 24px on small screens
+    md: '2rem',        // 32px on medium and up
+    lg: '2rem',
+    xl: '2rem',
+  },
+  maxWidth: '1200px', // Primary content width
+}
+```
+
+```jsx
+// Centered container with responsive padding
+<div className="container mx-auto">
+  Content automatically gets responsive padding
+</div>
+
+// Manual container with max-width
+<div className="max-w-content mx-auto px-4 md:px-6 lg:px-8">
+  Content with max-width-content (1200px)
+</div>
+```
+
+---
+
+## Best Practices
+
+### Do
+
+- Use consistent spacing values from the scale
+- Increase spacing for larger, more important sections
+- Apply responsive spacing for different screen sizes
+- Use `gap` for flex/grid layouts instead of margins
+
+### Don't
+
+- Mix arbitrary pixel values with the spacing scale
+- Use tight spacing for touch targets (minimum 44px)
+- Forget to adjust spacing for mobile devices
+- Overuse large spacing values in compact areas
+
+### Spacing Quick Reference
+
+```jsx
+// Inline element gaps
+<div className="flex items-center gap-2">
+  <Icon /> <span>Text with icon</span>
+</div>
+
+// Form field spacing
+<div className="space-y-4">
+  <Input label="Email" />
+  <Input label="Password" />
+  <Button>Submit</Button>
+</div>
+
+// Card grid
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <Card />
+  <Card />
+  <Card />
+</div>
+
+// Page section
+<section className="py-12 md:py-16 lg:py-20">
+  <div className="container">
+    <h2 className="mb-6 md:mb-8">Section Title</h2>
+    <p className="mb-4">Content paragraph</p>
+  </div>
+</section>
+```

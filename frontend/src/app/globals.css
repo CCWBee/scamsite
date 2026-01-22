@@ -1,26 +1,636 @@
+/**
+ * ScamAware Jersey - Global Styles
+ *
+ * This stylesheet defines:
+ * 1. CSS custom properties (design tokens) for use outside Tailwind
+ * 2. Base/reset styles for consistent cross-browser rendering
+ * 3. Accessibility enhancements (focus states, reduced motion)
+ * 4. Typography defaults matching JFSC branding
+ *
+ * Design tokens are synchronized with:
+ *   - tailwind.config.ts (Tailwind theme extension)
+ *   - src/lib/design-tokens.ts (TypeScript constants)
+ */
+
+/* =============================================================================
+   TAILWIND IMPORTS
+   ============================================================================= */
+
 @import "tailwindcss";
 
+/* =============================================================================
+   CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+
+   These variables enable design token usage outside of Tailwind classes,
+   such as in inline styles, third-party components, or CSS-in-JS.
+
+   Naming convention: --[category]-[name]-[variant]
+   Example: --color-navy-500, --spacing-4, --radius-lg
+   ============================================================================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ---------------------------------------------------------------------------
+     COLOR TOKENS
+
+     JFSC Brand Colors and semantic color palette
+     --------------------------------------------------------------------------- */
+
+  /* Navy - Primary brand color */
+  --color-navy: #1a1f3d;
+  --color-navy-50: #f0f1f5;
+  --color-navy-100: #e1e3eb;
+  --color-navy-200: #c3c7d7;
+  --color-navy-300: #a5abc3;
+  --color-navy-400: #878faf;
+  --color-navy-500: #69739b;
+  --color-navy-600: #545c7c;
+  --color-navy-700: #3f455d;
+  --color-navy-800: #2a2e3e;
+  --color-navy-900: #1a1f3d;
+  --color-navy-950: #0d0f1e;
+
+  /* Trust Blue - Secondary brand color */
+  --color-trust-blue: #0066a1;
+  --color-trust-blue-50: #e6f2f9;
+  --color-trust-blue-100: #cce5f3;
+  --color-trust-blue-200: #99cbe7;
+  --color-trust-blue-300: #66b1db;
+  --color-trust-blue-400: #3397cf;
+  --color-trust-blue-500: #0066a1;
+  --color-trust-blue-600: #005281;
+  --color-trust-blue-700: #003d61;
+  --color-trust-blue-800: #002940;
+  --color-trust-blue-900: #001420;
+
+  /* Alert Red - Accent/warning color */
+  --color-alert-red: #c8102e;
+  --color-alert-red-50: #fef2f3;
+  --color-alert-red-100: #fde6e8;
+  --color-alert-red-200: #fbd0d6;
+  --color-alert-red-300: #f7a8b3;
+  --color-alert-red-400: #f17689;
+  --color-alert-red-500: #e64660;
+  --color-alert-red-600: #c8102e;
+  --color-alert-red-700: #b30d27;
+  --color-alert-red-800: #940b20;
+  --color-alert-red-900: #7a0c1e;
+
+  /* Success - Semantic green */
+  --color-success: #28a745;
+  --color-success-50: #e9f7ec;
+  --color-success-100: #d3efd9;
+  --color-success-200: #a7dfb3;
+  --color-success-300: #7bcf8d;
+  --color-success-400: #4fbf67;
+  --color-success-500: #28a745;
+  --color-success-600: #208637;
+  --color-success-700: #186429;
+  --color-success-800: #10431c;
+  --color-success-900: #08210e;
+
+  /* Warning - Semantic yellow */
+  --color-warning: #ffc107;
+  --color-warning-50: #fff9e6;
+  --color-warning-100: #fff3cc;
+  --color-warning-200: #ffe799;
+  --color-warning-300: #ffdb66;
+  --color-warning-400: #ffcf33;
+  --color-warning-500: #ffc107;
+  --color-warning-600: #cc9a06;
+  --color-warning-700: #997404;
+  --color-warning-800: #664d03;
+  --color-warning-900: #332701;
+
+  /* Gray - Neutral scale */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+
+  /* Semantic colors (maps to specific use cases) */
+  --color-background: #ffffff;
+  --color-foreground: var(--color-gray-900);
+  --color-muted: var(--color-gray-500);
+  --color-border: var(--color-gray-200);
+  --color-link: var(--color-trust-blue);
+  --color-link-hover: var(--color-trust-blue-700);
+
+  /* ---------------------------------------------------------------------------
+     TYPOGRAPHY TOKENS
+     --------------------------------------------------------------------------- */
+
+  /* Font families */
+  --font-sans: Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace;
+
+  /* Font sizes */
+  --font-size-2xs: 0.625rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-hero: 3rem;
+  --font-size-display: 3.5rem;
+
+  /* Line heights */
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Font weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ---------------------------------------------------------------------------
+     SPACING TOKENS
+     --------------------------------------------------------------------------- */
+
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+
+  /* ---------------------------------------------------------------------------
+     BORDER RADIUS TOKENS
+     --------------------------------------------------------------------------- */
+
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-default: 0.375rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ---------------------------------------------------------------------------
+     SHADOW TOKENS
+     --------------------------------------------------------------------------- */
+
+  --shadow-card: 0 1px 3px 0 rgba(26, 31, 61, 0.1), 0 1px 2px -1px rgba(26, 31, 61, 0.1);
+  --shadow-elevated: 0 4px 6px -1px rgba(26, 31, 61, 0.1), 0 2px 4px -2px rgba(26, 31, 61, 0.1);
+  --shadow-modal: 0 10px 15px -3px rgba(26, 31, 61, 0.1), 0 4px 6px -4px rgba(26, 31, 61, 0.1);
+  --shadow-prominent: 0 20px 25px -5px rgba(26, 31, 61, 0.1), 0 8px 10px -6px rgba(26, 31, 61, 0.1);
+  --shadow-focus: 0 0 0 3px rgba(0, 102, 161, 0.4);
+
+  /* ---------------------------------------------------------------------------
+     LAYOUT TOKENS
+     --------------------------------------------------------------------------- */
+
+  --container-max-width: 1200px;
+  --header-height: 4.5rem;
+  --footer-height: 15rem;
+
+  /* ---------------------------------------------------------------------------
+     TRANSITION TOKENS
+     --------------------------------------------------------------------------- */
+
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------------------------------------------------------------------------
+     Z-INDEX TOKENS
+     --------------------------------------------------------------------------- */
+
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
 }
+
+/* =============================================================================
+   DARK THEME VARIABLES
+
+   These variables are prepared for future dark mode implementation.
+   Currently inactive as MVP is light mode only.
+
+   To enable dark mode:
+   1. Set MVP_LIGHT_MODE_ONLY to false in ThemeProvider.tsx
+   2. Review and adjust these color values as needed
+   3. Test all components for proper dark mode styling
+
+   The [data-theme="dark"] selector is applied by ThemeProvider when
+   the user selects dark mode or system preference is dark.
+   ============================================================================= */
+
+[data-theme="dark"] {
+  /* Background and foreground swap for dark mode */
+  --color-background: #1a1f3d;
+  --color-foreground: #f3f4f6;
+
+  /* Semantic colors adjusted for dark backgrounds */
+  --color-muted: var(--color-gray-400);
+  --color-border: var(--color-gray-700);
+  --color-link: var(--color-trust-blue-300);
+  --color-link-hover: var(--color-trust-blue-200);
+
+  /* Shadows need to be more subtle on dark backgrounds */
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-modal: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-prominent: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-focus: 0 0 0 3px rgba(102, 177, 219, 0.5);
+}
+
+/* =============================================================================
+   TAILWIND THEME INLINE
+
+   Maps CSS custom properties to Tailwind's theme system for Tailwind v4
+   ============================================================================= */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Map custom properties to Tailwind theme */
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* =============================================================================
+   BASE STYLES
+
+   Foundational styles for HTML elements following JFSC design guidelines
+   ============================================================================= */
+
+/**
+ * Use border-box sizing for all elements
+ * This makes working with padding and borders more predictable
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/**
+ * Remove default margins
+ * Margins are added explicitly via utility classes
+ */
+* {
+  margin: 0;
+}
+
+/**
+ * HTML element setup
+ * - Smooth scrolling for anchor links
+ * - Text size adjustment for mobile browsers
+ * - Optimized text rendering
+ */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * Body element defaults
+ * - Font family matches JFSC branding (Arial)
+ * - Line height for readability
+ * - Minimum height ensures footer stays at bottom
+ */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+}
+
+/**
+ * Improve media defaults
+ * - Responsive by default
+ * - Remove extra bottom spacing
+ */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+ * Form element inheritance
+ * Ensure form elements inherit font styles
+ */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/**
+ * Improve text wrapping
+ * Prevent awkward word breaks in headings and paragraphs
+ */
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+p {
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+/**
+ * Link defaults
+ * - Use trust-blue for links (JFSC brand color)
+ * - Underline for accessibility
+ */
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast) var(--ease-default);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/**
+ * Remove list styles where appropriate
+ * List styling is added via utility classes
+ */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+  padding: 0;
+}
+
+/* =============================================================================
+   ACCESSIBILITY ENHANCEMENTS
+
+   Focus states and reduced motion support for WCAG 2.1 AA compliance
+   ============================================================================= */
+
+/**
+ * Focus-visible styles
+ *
+ * Using :focus-visible instead of :focus ensures focus rings only appear
+ * for keyboard navigation, not mouse clicks. This provides a better UX
+ * while maintaining accessibility.
+ *
+ * The trust-blue focus ring matches the brand and provides sufficient
+ * contrast for visibility.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-trust-blue);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/**
+ * Remove default focus styles (replaced by focus-visible above)
+ */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/**
+ * Interactive element focus enhancements
+ * Additional visual feedback for buttons and form controls
+ */
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-trust-blue);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
+}
+
+/**
+ * Skip link for keyboard navigation
+ * Allows keyboard users to skip to main content
+ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--color-navy);
+  color: white;
+  padding: var(--spacing-3) var(--spacing-4);
+  z-index: var(--z-tooltip);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/**
+ * Reduced motion preference
+ *
+ * Respects user's system preference to reduce animations.
+ * Essential for users who experience motion sickness or vestibular disorders.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/**
+ * Screen reader only utility
+ * Visually hides content while keeping it accessible to screen readers
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* =============================================================================
+   UTILITY CLASSES
+
+   Common patterns that complement Tailwind utilities
+   ============================================================================= */
+
+/**
+ * Container utility
+ * Centers content with max-width and responsive padding
+ */
+.container-custom {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+@media (min-width: 640px) {
+  .container-custom {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+  }
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    padding-left: var(--spacing-8);
+    padding-right: var(--spacing-8);
+  }
+}
+
+/**
+ * Prose container for long-form content
+ * Optimal line length for readability
+ */
+.prose-custom {
+  max-width: 65ch;
+}
+
+/**
+ * Card shadow utility
+ */
+.shadow-card-custom {
+  box-shadow: var(--shadow-card);
+}
+
+/**
+ * Focus ring utility (for JavaScript-controlled focus)
+ */
+.focus-ring {
+  box-shadow: var(--shadow-focus);
+}
+
+/* =============================================================================
+   SKELETON SHIMMER ANIMATION
+
+   Animated gradient effect for loading skeleton components.
+   Respects prefers-reduced-motion for accessibility.
+   ============================================================================= */
+
+/**
+ * Shimmer animation keyframes
+ * Creates a gradient that moves from left to right
+ */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/**
+ * Skeleton shimmer utility class
+ * Applies an animated gradient background for loading states
+ */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-200) 0%,
+    var(--color-gray-100) 50%,
+    var(--color-gray-200) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+/**
+ * Disable shimmer animation for users who prefer reduced motion
+ * Falls back to a static background color
+ */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+    background: var(--color-gray-200);
+  }
+}
+
+/* =============================================================================
+   PRINT STYLES
+
+   Basic print optimizations for better printed output
+   ============================================================================= */
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  /* Hide non-essential elements */
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure links show their URLs */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.875em;
+    color: #666;
+  }
+
+  /* Prevent page breaks inside elements */
+  h1, h2, h3, h4, h5, h6,
+  img,
+  blockquote,
+  pre,
+  table {
+    break-inside: avoid;
+  }
 }

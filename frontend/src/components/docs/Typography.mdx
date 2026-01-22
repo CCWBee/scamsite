@@ -1,0 +1,342 @@
+{/* Typography.mdx - ScamAware Jersey Typography Documentation */}
+
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Design System/Typography" />
+
+# Typography
+
+Typography in ScamAware Jersey uses Arial as the primary font family to match JFSC branding and ensure maximum cross-platform compatibility without web font loading overhead.
+
+---
+
+## Font Family
+
+### Primary Font Stack (Sans-serif)
+
+<div style={{ fontFamily: 'Arial, Helvetica, ui-sans-serif, system-ui, sans-serif', padding: '24px', backgroundColor: '#f9fafb', borderRadius: '8px', marginBottom: '24px' }}>
+  <p style={{ fontSize: '32px', marginBottom: '8px' }}>Arial, Helvetica, sans-serif</p>
+  <p style={{ fontSize: '16px', color: '#6b7280' }}>
+    The quick brown fox jumps over the lazy dog. 0123456789
+  </p>
+</div>
+
+Used for all body text, headings, buttons, and UI elements.
+
+```jsx
+// Tailwind class
+<p className="font-sans">Text content</p>
+
+// CSS
+font-family: Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+```
+
+### Monospace Font Stack
+
+<div style={{ fontFamily: 'ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace', padding: '24px', backgroundColor: '#f9fafb', borderRadius: '8px', marginBottom: '24px' }}>
+  <p style={{ fontSize: '16px', marginBottom: '8px' }}>ui-monospace, Consolas, monospace</p>
+  <code style={{ fontSize: '14px', backgroundColor: '#e5e7eb', padding: '4px 8px', borderRadius: '4px' }}>
+    const scamCheck = await analyzeMessage(text);
+  </code>
+</div>
+
+Used for code examples and technical content.
+
+```jsx
+// Tailwind class
+<code className="font-mono">Code snippet</code>
+
+// CSS
+font-family: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, monospace;
+```
+
+---
+
+## Font Size Scale
+
+The typography scale follows a modular progression for consistent hierarchy. All sizes are in `rem` units (relative to 16px base).
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '16px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>display</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>3.5rem (56px)</span>
+    <span style={{ fontSize: '3.5rem', lineHeight: '1.1', letterSpacing: '-0.02em', color: '#1a1f3d' }}>Display</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>hero</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>3rem (48px)</span>
+    <span style={{ fontSize: '3rem', lineHeight: '1.1', letterSpacing: '-0.02em', color: '#1a1f3d' }}>Hero Headline</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>5xl</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>3rem (48px)</span>
+    <span style={{ fontSize: '3rem', lineHeight: '1', color: '#1a1f3d' }}>Heading 5XL</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>4xl</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>2.25rem (36px)</span>
+    <span style={{ fontSize: '2.25rem', lineHeight: '2.5rem', color: '#1a1f3d' }}>Heading 4XL</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>3xl</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>1.875rem (30px)</span>
+    <span style={{ fontSize: '1.875rem', lineHeight: '2.25rem', color: '#1a1f3d' }}>Heading 3XL</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>2xl</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>1.5rem (24px)</span>
+    <span style={{ fontSize: '1.5rem', lineHeight: '2rem', color: '#1a1f3d' }}>Heading 2XL</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>xl</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>1.25rem (20px)</span>
+    <span style={{ fontSize: '1.25rem', lineHeight: '1.75rem', color: '#1a1f3d' }}>Heading XL</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>lg</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>1.125rem (18px)</span>
+    <span style={{ fontSize: '1.125rem', lineHeight: '1.75rem', color: '#1a1f3d' }}>Large Text</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>base</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>1rem (16px)</span>
+    <span style={{ fontSize: '1rem', lineHeight: '1.5rem', color: '#1a1f3d' }}>Base body text - default for paragraphs</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>sm</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>0.875rem (14px)</span>
+    <span style={{ fontSize: '0.875rem', lineHeight: '1.25rem', color: '#1a1f3d' }}>Small text - captions, helper text</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>xs</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>0.75rem (12px)</span>
+    <span style={{ fontSize: '0.75rem', lineHeight: '1rem', color: '#1a1f3d' }}>Extra small - labels, badges</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>2xs</span>
+    <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280' }}>0.625rem (10px)</span>
+    <span style={{ fontSize: '0.625rem', lineHeight: '0.875rem', color: '#1a1f3d' }}>Tiny - legal disclaimers, footnotes</span>
+  </div>
+</div>
+
+### Usage Guidelines
+
+| Size | Use Case | Tailwind Class |
+|------|----------|----------------|
+| `display` | Landing page hero sections | `text-display` |
+| `hero` | Page hero headlines | `text-hero` |
+| `4xl-5xl` | Section headings (H1) | `text-4xl` / `text-5xl` |
+| `3xl` | Major section headings (H2) | `text-3xl` |
+| `2xl` | Sub-section headings (H3) | `text-2xl` |
+| `xl` | Card titles, H4 | `text-xl` |
+| `lg` | Lead paragraphs, H5 | `text-lg` |
+| `base` | Body text, paragraphs | `text-base` |
+| `sm` | Captions, helper text, metadata | `text-sm` |
+| `xs` | Labels, badges, timestamps | `text-xs` |
+| `2xs` | Legal text, footnotes | `text-2xs` |
+
+---
+
+## Font Weights
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '100px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>normal (400)</span>
+    <span style={{ fontSize: '24px', fontWeight: '400', color: '#1a1f3d' }}>Regular body text</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '100px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>medium (500)</span>
+    <span style={{ fontSize: '24px', fontWeight: '500', color: '#1a1f3d' }}>Medium emphasis</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '100px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>semibold (600)</span>
+    <span style={{ fontSize: '24px', fontWeight: '600', color: '#1a1f3d' }}>Semibold headings</span>
+  </div>
+
+  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <span style={{ minWidth: '100px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>bold (700)</span>
+    <span style={{ fontSize: '24px', fontWeight: '700', color: '#1a1f3d' }}>Bold emphasis</span>
+  </div>
+</div>
+
+### Weight Usage Guidelines
+
+| Weight | Use Case | Tailwind Class |
+|--------|----------|----------------|
+| `normal` (400) | Body text, paragraphs | `font-normal` |
+| `medium` (500) | Subtle emphasis, navigation | `font-medium` |
+| `semibold` (600) | Headings, subheadings | `font-semibold` |
+| `bold` (700) | Strong emphasis, buttons | `font-bold` |
+
+---
+
+## Line Height
+
+Line height (leading) affects readability. Use appropriate values based on text size and context.
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '16px', marginBottom: '32px' }}>
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
+      <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>none (1)</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>line-height: 1</span>
+    </div>
+    <p style={{ fontSize: '16px', lineHeight: '1', color: '#1a1f3d', backgroundColor: 'rgba(0,102,161,0.1)', padding: '8px' }}>
+      Tight line height with no extra spacing. This is useful for single-line headings where vertical space needs to be minimized.
+    </p>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
+      <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>tight (1.25)</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>line-height: 1.25</span>
+    </div>
+    <p style={{ fontSize: '16px', lineHeight: '1.25', color: '#1a1f3d', backgroundColor: 'rgba(0,102,161,0.1)', padding: '8px' }}>
+      Slightly tighter spacing, good for headings and large display text where the larger font size provides enough breathing room between lines.
+    </p>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
+      <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>snug (1.375)</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>line-height: 1.375</span>
+    </div>
+    <p style={{ fontSize: '16px', lineHeight: '1.375', color: '#1a1f3d', backgroundColor: 'rgba(0,102,161,0.1)', padding: '8px' }}>
+      A balanced option between tight and normal spacing. Works well for subheadings and short paragraphs where space efficiency matters.
+    </p>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
+      <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>normal (1.5)</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>line-height: 1.5</span>
+    </div>
+    <p style={{ fontSize: '16px', lineHeight: '1.5', color: '#1a1f3d', backgroundColor: 'rgba(0,102,161,0.1)', padding: '8px' }}>
+      The default and recommended line height for body text. Provides optimal readability for longer passages of text. This is the standard choice for paragraphs and general content.
+    </p>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
+      <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>relaxed (1.625)</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>line-height: 1.625</span>
+    </div>
+    <p style={{ fontSize: '16px', lineHeight: '1.625', color: '#1a1f3d', backgroundColor: 'rgba(0,102,161,0.1)', padding: '8px' }}>
+      Extra breathing room between lines. Good for long-form content, articles, or when you want to improve readability for users who may have difficulty tracking lines.
+    </p>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+    <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
+      <span style={{ minWidth: '80px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>loose (2)</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>line-height: 2</span>
+    </div>
+    <p style={{ fontSize: '16px', lineHeight: '2', color: '#1a1f3d', backgroundColor: 'rgba(0,102,161,0.1)', padding: '8px' }}>
+      Very open spacing, creating significant vertical space between lines. Use sparingly for special emphasis or when extreme readability is needed.
+    </p>
+  </div>
+</div>
+
+### Line Height Guidelines
+
+| Leading | Use Case | Tailwind Class |
+|---------|----------|----------------|
+| `none` (1) | Single-line headings, icons with text | `leading-none` |
+| `tight` (1.25) | Large headings, display text | `leading-tight` |
+| `snug` (1.375) | Subheadings, short text blocks | `leading-snug` |
+| `normal` (1.5) | **Body text (default)** | `leading-normal` |
+| `relaxed` (1.625) | Long-form content, improved readability | `leading-relaxed` |
+| `loose` (2) | Special emphasis, lists | `leading-loose` |
+
+---
+
+## Typography Examples
+
+### Page Heading Hierarchy
+
+<div style={{ padding: '24px', backgroundColor: '#f9fafb', borderRadius: '8px', marginBottom: '24px' }}>
+  <h1 style={{ fontSize: '2.25rem', fontWeight: '700', lineHeight: '1.25', color: '#1a1f3d', marginBottom: '16px' }}>
+    H1: Protect Yourself from Scams
+  </h1>
+  <h2 style={{ fontSize: '1.875rem', fontWeight: '600', lineHeight: '1.25', color: '#1a1f3d', marginBottom: '12px' }}>
+    H2: Common Types of Scams
+  </h2>
+  <h3 style={{ fontSize: '1.5rem', fontWeight: '600', lineHeight: '1.375', color: '#1a1f3d', marginBottom: '12px' }}>
+    H3: Investment Fraud
+  </h3>
+  <h4 style={{ fontSize: '1.25rem', fontWeight: '600', lineHeight: '1.375', color: '#1a1f3d', marginBottom: '8px' }}>
+    H4: Warning Signs
+  </h4>
+  <h5 style={{ fontSize: '1.125rem', fontWeight: '600', lineHeight: '1.5', color: '#1a1f3d', marginBottom: '8px' }}>
+    H5: How to Report
+  </h5>
+  <p style={{ fontSize: '1rem', fontWeight: '400', lineHeight: '1.5', color: '#374151' }}>
+    Body text: If you believe you have been targeted by a scam, contact the JFSC immediately at +44 (0)1534 822000.
+  </p>
+</div>
+
+### Code Example
+
+```jsx
+// Heading hierarchy
+<h1 className="text-4xl font-bold leading-tight text-navy">H1 Heading</h1>
+<h2 className="text-3xl font-semibold leading-tight text-navy">H2 Heading</h2>
+<h3 className="text-2xl font-semibold leading-snug text-navy">H3 Heading</h3>
+<h4 className="text-xl font-semibold leading-snug text-navy">H4 Heading</h4>
+<h5 className="text-lg font-semibold leading-normal text-navy">H5 Heading</h5>
+
+// Body text
+<p className="text-base leading-normal text-gray-700">Body paragraph</p>
+<p className="text-sm text-gray-600">Caption or helper text</p>
+<span className="text-xs text-gray-500">Label or metadata</span>
+```
+
+---
+
+## Responsive Typography
+
+Typography scales across breakpoints for optimal readability on all devices.
+
+```jsx
+// Responsive heading - smaller on mobile, larger on desktop
+<h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+  Responsive Heading
+</h1>
+
+// Responsive body text
+<p className="text-sm md:text-base lg:text-lg">
+  Responsive paragraph text
+</p>
+```
+
+### Recommended Responsive Scales
+
+| Element | Mobile (< 768px) | Tablet (768px+) | Desktop (1024px+) |
+|---------|------------------|-----------------|-------------------|
+| Hero | `text-3xl` | `text-4xl` | `text-hero` |
+| H1 | `text-2xl` | `text-3xl` | `text-4xl` |
+| H2 | `text-xl` | `text-2xl` | `text-3xl` |
+| H3 | `text-lg` | `text-xl` | `text-2xl` |
+| Body | `text-sm` | `text-base` | `text-base` |
+
+---
+
+## Accessibility
+
+- **Minimum font size:** 16px for body text ensures readability
+- **Line length:** Keep paragraphs to 65-75 characters (use `max-w-prose`)
+- **Contrast:** Use `text-gray-900` or `text-navy` on light backgrounds
+- **Avoid all caps:** Use sparingly, only for short labels
+- **Don't justify text:** Left-align for better readability

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider, themeInitScript } from "@/components/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +24,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/*
+          Theme initialization script
+
+          This script runs before React hydration to prevent flash of wrong theme.
+          For MVP, it simply sets the theme to 'light'. When dark mode is enabled,
+          uncomment the full detection logic in themeInitScript.
+        */}
+        <script
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

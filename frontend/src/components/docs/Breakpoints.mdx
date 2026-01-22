@@ -1,0 +1,406 @@
+{/* Breakpoints.mdx - ScamAware Jersey Responsive Design Documentation */}
+
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Design System/Breakpoints" />
+
+# Breakpoints
+
+ScamAware Jersey follows a mobile-first responsive design approach. Components are designed for mobile devices first, then progressively enhanced for larger screens using breakpoint-specific styles.
+
+---
+
+## Breakpoint Scale
+
+The design system uses the following breakpoints, aligned with Tailwind CSS defaults:
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '16px', marginBottom: '32px' }}>
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '2px solid #c8102e' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+      <span style={{ fontSize: '18px', fontWeight: '600', color: '#1a1f3d' }}>Mobile (Default)</span>
+      <span style={{ fontSize: '14px', fontFamily: 'monospace', color: '#c8102e' }}>0px - 639px</span>
+    </div>
+    <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>
+      Base styles with no prefix. Smartphones in portrait orientation.
+    </p>
+    <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#fef2f3', borderRadius: '4px' }}>
+      <code style={{ fontSize: '12px', color: '#c8102e' }}>Min width: 320px (supported minimum)</code>
+    </div>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '2px solid #0066a1' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+      <span style={{ fontSize: '18px', fontWeight: '600', color: '#1a1f3d' }}>sm (Small)</span>
+      <span style={{ fontSize: '14px', fontFamily: 'monospace', color: '#0066a1' }}>640px+</span>
+    </div>
+    <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>
+      Large phones in landscape, small tablets.
+    </p>
+    <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#e6f2f9', borderRadius: '4px' }}>
+      <code style={{ fontSize: '12px', color: '#0066a1' }}>sm: prefix in Tailwind</code>
+    </div>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '2px solid #28a745' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+      <span style={{ fontSize: '18px', fontWeight: '600', color: '#1a1f3d' }}>md (Medium)</span>
+      <span style={{ fontSize: '14px', fontFamily: 'monospace', color: '#28a745' }}>768px+</span>
+    </div>
+    <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>
+      Tablets in portrait and landscape orientation.
+    </p>
+    <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#e9f7ec', borderRadius: '4px' }}>
+      <code style={{ fontSize: '12px', color: '#28a745' }}>md: prefix in Tailwind</code>
+    </div>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '2px solid #ffc107' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+      <span style={{ fontSize: '18px', fontWeight: '600', color: '#1a1f3d' }}>lg (Large)</span>
+      <span style={{ fontSize: '14px', fontFamily: 'monospace', color: '#997404' }}>1024px+</span>
+    </div>
+    <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>
+      Laptops and small desktop monitors.
+    </p>
+    <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#fff9e6', borderRadius: '4px' }}>
+      <code style={{ fontSize: '12px', color: '#997404' }}>lg: prefix in Tailwind</code>
+    </div>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '2px solid #1a1f3d' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+      <span style={{ fontSize: '18px', fontWeight: '600', color: '#1a1f3d' }}>xl (Extra Large)</span>
+      <span style={{ fontSize: '14px', fontFamily: 'monospace', color: '#1a1f3d' }}>1280px+</span>
+    </div>
+    <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>
+      Large desktop monitors.
+    </p>
+    <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#f0f1f5', borderRadius: '4px' }}>
+      <code style={{ fontSize: '12px', color: '#1a1f3d' }}>xl: prefix in Tailwind</code>
+    </div>
+  </div>
+
+  <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '2px solid #69739b' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+      <span style={{ fontSize: '18px', fontWeight: '600', color: '#1a1f3d' }}>2xl (2X Large)</span>
+      <span style={{ fontSize: '14px', fontFamily: 'monospace', color: '#69739b' }}>1536px+</span>
+    </div>
+    <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>
+      Wide monitors and 4K displays.
+    </p>
+    <div style={{ marginTop: '12px', padding: '8px', backgroundColor: '#e1e3eb', borderRadius: '4px' }}>
+      <code style={{ fontSize: '12px', color: '#545c7c' }}>2xl: prefix in Tailwind</code>
+    </div>
+  </div>
+</div>
+
+---
+
+## Breakpoint Reference Table
+
+| Breakpoint | Min Width | CSS Media Query | Tailwind Prefix | Typical Devices |
+|------------|-----------|-----------------|-----------------|-----------------|
+| Default | 0px | - | (none) | All devices (mobile base) |
+| `sm` | 640px | `@media (min-width: 640px)` | `sm:` | Large phones (landscape) |
+| `md` | 768px | `@media (min-width: 768px)` | `md:` | Tablets |
+| `lg` | 1024px | `@media (min-width: 1024px)` | `lg:` | Laptops, desktops |
+| `xl` | 1280px | `@media (min-width: 1280px)` | `xl:` | Large desktops |
+| `2xl` | 1536px | `@media (min-width: 1536px)` | `2xl:` | Wide monitors |
+
+---
+
+## Mobile-First Approach
+
+### What is Mobile-First?
+
+Mobile-first means writing base styles for mobile devices, then adding complexity for larger screens. This approach:
+
+- Ensures mobile users get a fast, optimized experience
+- Keeps CSS simpler and more maintainable
+- Forces prioritization of essential content
+- Aligns with Google's mobile-first indexing
+
+### How It Works
+
+Base styles (no prefix) apply to **all screen sizes**. Prefixed styles apply at that breakpoint **and above**.
+
+```jsx
+// Mobile-first example
+<div className="
+  text-sm        /* Base: applies to all sizes (mobile) */
+  md:text-base   /* Medium screens (768px+): larger text */
+  lg:text-lg     /* Large screens (1024px+): even larger */
+">
+  Responsive text
+</div>
+```
+
+<div style={{ padding: '24px', backgroundColor: '#f9fafb', borderRadius: '8px', marginTop: '16px', marginBottom: '32px' }}>
+  <p style={{ fontSize: '14px', fontWeight: '600', color: '#1a1f3d', marginBottom: '16px' }}>Style Cascade Example:</p>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <span style={{ minWidth: '100px', fontSize: '12px', color: '#c8102e' }}>0px - 767px:</span>
+      <span style={{ fontSize: '14px', fontFamily: 'monospace' }}>text-sm</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>(14px)</span>
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <span style={{ minWidth: '100px', fontSize: '12px', color: '#28a745' }}>768px - 1023px:</span>
+      <span style={{ fontSize: '16px', fontFamily: 'monospace' }}>md:text-base</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>(16px)</span>
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <span style={{ minWidth: '100px', fontSize: '12px', color: '#997404' }}>1024px+:</span>
+      <span style={{ fontSize: '18px', fontFamily: 'monospace' }}>lg:text-lg</span>
+      <span style={{ fontSize: '12px', color: '#6b7280' }}>(18px)</span>
+    </div>
+  </div>
+</div>
+
+---
+
+## Responsive Design Examples
+
+### Grid Layouts
+
+```jsx
+// Single column on mobile, multi-column on larger screens
+<div className="
+  grid
+  grid-cols-1      /* Mobile: 1 column */
+  md:grid-cols-2   /* Tablet: 2 columns */
+  lg:grid-cols-3   /* Desktop: 3 columns */
+  gap-4 md:gap-6
+">
+  <Card />
+  <Card />
+  <Card />
+</div>
+```
+
+<div style={{ padding: '24px', backgroundColor: '#f9fafb', borderRadius: '8px', marginBottom: '24px' }}>
+  <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>Visual representation:</p>
+  <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+    <div>
+      <p style={{ fontSize: '11px', color: '#c8102e', marginBottom: '8px' }}>Mobile (1 col)</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100px' }}>
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+      </div>
+    </div>
+    <div>
+      <p style={{ fontSize: '11px', color: '#28a745', marginBottom: '8px' }}>Tablet (2 col)</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', width: '150px' }}>
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+      </div>
+    </div>
+    <div>
+      <p style={{ fontSize: '11px', color: '#997404', marginBottom: '8px' }}>Desktop (3 col)</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', width: '200px' }}>
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+        <div style={{ height: '40px', backgroundColor: '#0066a1', borderRadius: '4px' }} />
+      </div>
+    </div>
+  </div>
+</div>
+
+### Navigation
+
+```jsx
+// Mobile: hamburger menu, Desktop: horizontal nav
+<nav className="flex items-center justify-between">
+  <Logo />
+
+  {/* Mobile menu button - hidden on desktop */}
+  <button className="md:hidden">
+    <MenuIcon />
+  </button>
+
+  {/* Desktop navigation - hidden on mobile */}
+  <div className="hidden md:flex md:items-center md:gap-6">
+    <Link href="/about">About</Link>
+    <Link href="/scams">Scam Types</Link>
+    <Link href="/report">Report</Link>
+    <Link href="/chat">Chat</Link>
+  </div>
+</nav>
+```
+
+### Typography
+
+```jsx
+// Responsive heading sizes
+<h1 className="
+  text-2xl         /* Mobile: 24px */
+  md:text-3xl      /* Tablet: 30px */
+  lg:text-4xl      /* Desktop: 36px */
+  font-bold
+">
+  Protect Yourself from Scams
+</h1>
+
+// Responsive body text
+<p className="
+  text-sm          /* Mobile: 14px */
+  md:text-base     /* Tablet+: 16px */
+  leading-relaxed
+">
+  Learn to identify common scams targeting Jersey residents.
+</p>
+```
+
+### Spacing
+
+```jsx
+// Responsive padding and margins
+<section className="
+  py-8             /* Mobile: 32px vertical */
+  md:py-12         /* Tablet: 48px vertical */
+  lg:py-16         /* Desktop: 64px vertical */
+  px-4             /* Mobile: 16px horizontal */
+  md:px-6          /* Tablet: 24px horizontal */
+  lg:px-8          /* Desktop: 32px horizontal */
+">
+  Section content
+</section>
+```
+
+### Visibility
+
+```jsx
+// Show/hide elements based on screen size
+<div>
+  {/* Only visible on mobile */}
+  <MobileNav className="md:hidden" />
+
+  {/* Only visible on tablet and up */}
+  <DesktopNav className="hidden md:block" />
+
+  {/* Only visible on large screens */}
+  <Sidebar className="hidden lg:block" />
+</div>
+```
+
+---
+
+## Container Behavior
+
+The content container adapts to screen size:
+
+```jsx
+<div className="container mx-auto">
+  {/*
+    - Mobile (< 640px): full width with 16px padding
+    - sm (640px+): max-width 640px with 24px padding
+    - md (768px+): max-width 768px with 32px padding
+    - lg (1024px+): max-width 1024px with 32px padding
+    - xl (1280px+): max-width 1200px (our custom max) with 32px padding
+  */}
+  Content constrained to readable width
+</div>
+```
+
+---
+
+## Using Breakpoints in JavaScript
+
+For conditional logic in React components:
+
+```typescript
+import { breakpoints } from '@/lib/design-tokens';
+
+// Check screen width
+const isTablet = window.innerWidth >= parseInt(breakpoints.md);
+const isDesktop = window.innerWidth >= parseInt(breakpoints.lg);
+
+// With React hook
+import { useState, useEffect } from 'react';
+
+function useBreakpoint(breakpoint: keyof typeof breakpoints) {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia(
+      `(min-width: ${breakpoints[breakpoint]})`
+    );
+    setMatches(query.matches);
+
+    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
+    query.addEventListener('change', listener);
+    return () => query.removeEventListener('change', listener);
+  }, [breakpoint]);
+
+  return matches;
+}
+
+// Usage
+function MyComponent() {
+  const isDesktop = useBreakpoint('lg');
+
+  return isDesktop ? <DesktopView /> : <MobileView />;
+}
+```
+
+---
+
+## Design Token Values
+
+```typescript
+// From design-tokens.ts
+export const breakpoints = {
+  sm: '640px',     // Small devices
+  md: '768px',     // Medium devices (tablets)
+  lg: '1024px',    // Large devices (desktops)
+  xl: '1280px',    // Extra large devices
+  '2xl': '1536px', // Wide screens
+} as const;
+```
+
+---
+
+## Best Practices
+
+### Do
+
+- Start with mobile styles, add complexity for larger screens
+- Test designs at each breakpoint
+- Use semantic breakpoint names (`md`, `lg`) not pixel values
+- Consider touch targets on mobile (minimum 44x44px)
+- Ensure text remains readable at all sizes
+
+### Don't
+
+- Write desktop styles first and "shrink" for mobile
+- Use too many breakpoint overrides (keep it simple)
+- Forget to test on real devices, not just browser resize
+- Assume everyone has a large screen
+- Ignore intermediate sizes between breakpoints
+
+### Testing Checklist
+
+- [ ] **320px** - Smallest supported mobile width
+- [ ] **375px** - iPhone SE, common mobile size
+- [ ] **414px** - iPhone Plus/Max sizes
+- [ ] **768px** - iPad portrait, tablet breakpoint
+- [ ] **1024px** - iPad landscape, small desktop
+- [ ] **1280px** - Common laptop resolution
+- [ ] **1440px** - Large desktop monitors
+- [ ] **1920px** - Full HD monitors
+
+---
+
+## Key Breakpoints for ScamAware Jersey
+
+Based on the project requirements:
+
+| Breakpoint | Width | Primary Use |
+|------------|-------|-------------|
+| Mobile (default) | 320px minimum | Single column, stacked layout |
+| Tablet (`md`) | 768px | Two-column layouts, expanded nav |
+| Desktop (`lg`) | 1024px | Full navigation, sidebar options |
+| Large (`xl`) | 1440px | Optimized wide layouts |
+
+These align with the design specification's mobile-first approach with breakpoints at 320px, 768px, 1024px, and 1440px.
