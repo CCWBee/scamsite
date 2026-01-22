@@ -1,0 +1,92 @@
+# Prettier Ignore Configuration for ScamAware Jersey Frontend
+#
+# Files and directories listed here will be skipped by Prettier formatting.
+# This prevents unnecessary formatting of generated files, dependencies,
+# and files that should maintain their original formatting.
+
+# =============================================================================
+# Build Output & Generated Files
+# =============================================================================
+
+# Next.js build output directory
+# Contains compiled and optimized production files
+.next/
+
+# Static export output directory (if using next export)
+out/
+
+# Generic build output directory
+build/
+
+# Distribution directory
+dist/
+
+# =============================================================================
+# Dependencies
+# =============================================================================
+
+# Node modules - third-party dependencies should not be modified
+node_modules/
+
+# =============================================================================
+# TypeScript Generated Files
+# =============================================================================
+
+# Next.js TypeScript declaration file (auto-generated)
+next-env.d.ts
+
+# TypeScript build info cache file
+*.tsbuildinfo
+
+# =============================================================================
+# Lock Files
+# =============================================================================
+
+# Package lock files maintain exact formatting for reproducible installs
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# =============================================================================
+# Coverage & Testing
+# =============================================================================
+
+# Test coverage reports
+coverage/
+
+# =============================================================================
+# IDE & Editor Directories
+# =============================================================================
+
+# VS Code workspace settings (may contain custom formatting)
+.vscode/
+
+# JetBrains IDE settings
+.idea/
+
+# =============================================================================
+# Cache Directories
+# =============================================================================
+
+# ESLint cache
+.eslintcache
+
+# Prettier cache
+.prettiercache
+
+# Next.js cache
+.cache/
+
+# =============================================================================
+# Other
+# =============================================================================
+
+# Environment files (may contain sensitive data with specific formatting)
+.env*
+
+# Public assets that shouldn't be modified
+public/
+
+# Any minified files
+*.min.js
+*.min.css

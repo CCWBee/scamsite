@@ -1,0 +1,124 @@
+# ScamAware Jersey Guardrails Service - Python Dependencies
+# =========================================================
+# This file lists all Python package dependencies required to run
+# the Guardrails API service for the ScamAware Jersey chatbot.
+#
+# Install with: pip install -r requirements.txt
+
+# FastAPI - Modern, fast web framework for building APIs
+# Used as the core framework for the Guardrails service
+fastapi>=0.109.0
+
+# Uvicorn - Lightning-fast ASGI server
+# Runs the FastAPI application in production
+# [standard] includes useful extras like uvloop and httptools
+uvicorn[standard]>=0.27.0
+
+# Pydantic - Data validation using Python type annotations
+# Used for request/response validation and serialization
+pydantic>=2.0.0
+
+# HTTPX - Async HTTP client
+# Used for making requests to external services (e.g., AI models)
+httpx>=0.26.0
+
+# Python JSON Logger - JSON formatting for log output
+# Enables structured logging for better observability
+python-json-logger>=2.0.0
+
+# =============================================================================
+# DEVELOPMENT DEPENDENCIES
+# =============================================================================
+#
+# These packages are used for development, testing, and code quality.
+# They are not required for production deployment.
+#
+# To install all dependencies including dev tools:
+#   pip install -r requirements.txt
+#
+# For production-only installation, consider using:
+#   pip install fastapi uvicorn[standard] pydantic httpx python-json-logger
+#
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# PRE-COMMIT - Git Hook Manager
+# -----------------------------------------------------------------------------
+# Pre-commit is a framework for managing multi-language pre-commit hooks.
+# It runs code quality checks automatically before each git commit.
+#
+# Setup instructions:
+#   1. pip install pre-commit     # Install pre-commit
+#   2. pre-commit install         # Install git hooks in your repo
+#   3. pre-commit run --all-files # Run all hooks manually (optional)
+#
+# After setup, hooks run automatically on: git commit
+# To bypass hooks (use sparingly): git commit --no-verify
+#
+pre-commit>=3.7.0
+
+# -----------------------------------------------------------------------------
+# BLACK - Code Formatter
+# -----------------------------------------------------------------------------
+# Black is an opinionated Python code formatter that enforces consistent style.
+# It reformats code to follow a strict subset of PEP 8.
+#
+# Key features:
+#   - Deterministic output (same input = same output)
+#   - Line length of 88 characters (optimal for diffs)
+#   - No configuration needed (opinionated by design)
+#
+# Usage:
+#   black .                    # Format all Python files
+#   black --check .            # Check without modifying
+#   black --diff .             # Show what would change
+#
+black>=24.4.0
+
+# -----------------------------------------------------------------------------
+# RUFF - Fast Python Linter
+# -----------------------------------------------------------------------------
+# Ruff is an extremely fast Python linter written in Rust.
+# It replaces multiple tools: flake8, isort, pyupgrade, and more.
+#
+# Key features:
+#   - 10-100x faster than traditional linters
+#   - Built-in auto-fix for many issues
+#   - Replaces flake8, isort, pyupgrade, bandit
+#   - Modern Python 3.11+ support
+#
+# Usage:
+#   ruff check .               # Lint all files
+#   ruff check . --fix         # Lint and auto-fix
+#   ruff format .              # Format code (alternative to black)
+#
+ruff>=0.4.0
+
+# -----------------------------------------------------------------------------
+# MYPY - Static Type Checker
+# -----------------------------------------------------------------------------
+# MyPy analyzes Python code to find type errors without running it.
+# It uses type annotations (PEP 484) to catch bugs before runtime.
+#
+# Key features:
+#   - Catches type-related bugs at development time
+#   - Improves code documentation through types
+#   - Enables better IDE support (autocomplete, refactoring)
+#   - Strict mode for maximum safety
+#
+# Usage:
+#   mypy .                     # Type check all files
+#   mypy path/to/file.py       # Type check specific file
+#   mypy . --strict            # Strict type checking
+#
+mypy>=1.10.0
+
+# -----------------------------------------------------------------------------
+# TYPE STUBS - Type Annotations for Third-Party Libraries
+# -----------------------------------------------------------------------------
+# Type stubs provide type information for libraries that don't include it.
+# These help mypy understand the types used by external packages.
+
+# types-requests - Type stubs for the requests library
+# Provides type information for HTTP request/response handling
+types-requests>=2.31.0

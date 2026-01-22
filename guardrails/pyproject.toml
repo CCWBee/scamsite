@@ -1,0 +1,114 @@
+# =============================================================================
+# ScamAware Jersey Guardrails Service - Project Configuration
+# =============================================================================
+#
+# This file contains the project metadata and build configuration for the
+# Guardrails service. It follows PEP 621 standards for Python project metadata.
+#
+# For more information on pyproject.toml, see:
+# https://packaging.python.org/en/latest/specifications/pyproject-toml/
+
+[project]
+name = "scamaware-guardrails"
+version = "0.1.0"
+description = "Input validation and output filtering service for the ScamAware Jersey chatbot. Provides safety guardrails including prompt injection detection, content moderation, and response filtering to ensure appropriate and helpful interactions."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "ScamAware Jersey Team" }
+]
+keywords = [
+    "scam-awareness",
+    "chatbot",
+    "guardrails",
+    "content-filtering",
+    "input-validation",
+    "fastapi",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: FastAPI",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Security",
+]
+
+# Main dependencies (mirrors requirements.txt for pip compatibility)
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.26.0",
+    "python-json-logger>=2.0.0",
+]
+
+[project.optional-dependencies]
+# Development dependencies for testing and code quality
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.0.0",
+    "black>=24.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://scamaware.jersey"
+"Bug Tracker" = "https://github.com/scamaware-jersey/guardrails/issues"
+"Documentation" = "https://docs.scamaware.jersey/guardrails"
+
+# =============================================================================
+# Build System Configuration
+# =============================================================================
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# =============================================================================
+# Tool Configurations
+# =============================================================================
+
+# Black - Code Formatter
+[tool.black]
+line-length = 88
+target-version = ["py311", "py312"]
+include = '\.pyi?$'
+
+# Ruff - Fast Python Linter
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+]
+
+# MyPy - Static Type Checker
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+plugins = ["pydantic.mypy"]
+
+# Pytest - Testing Configuration
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v --cov=. --cov-report=term-missing"

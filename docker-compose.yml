@@ -1,0 +1,520 @@
+# =============================================================================
+# ScamAware Jersey - Development Docker Compose Configuration
+# =============================================================================
+#
+# This Docker Compose file orchestrates all services required for the
+# ScamAware Jersey anti-scam awareness portal development environment.
+#
+# OVERVIEW OF SERVICES:
+# ---------------------
+# 1. frontend   - Next.js web application (user-facing portal)
+# 2. guardrails - FastAPI backend service (AI safety layer & API)
+# 3. ollama     - Local LLM inference server (AI model hosting)
+# 4. nginx      - Reverse proxy (unified entry point, routing)
+#
+# ARCHITECTURE FLOW:
+# ------------------
+#   User -> nginx:80 -> frontend:3000 (web pages)
+#                    -> guardrails:8000 (API requests)
+#                           -> ollama:11434 (LLM inference)
+#
+# QUICK START:
+# ------------
+#   docker-compose up -d          # Start all services in background
+#   docker-compose logs -f        # Follow all logs
+#   docker-compose down           # Stop and remove containers
+#   docker-compose down -v        # Stop and remove containers + volumes
+#
+# GPU SUPPORT:
+# ------------
+# The ollama service includes optional NVIDIA GPU passthrough configuration.
+# If no GPU is available, Docker will gracefully fall back to CPU-only mode.
+# Ensure nvidia-docker2 is installed for GPU acceleration.
+#
+# =============================================================================
+
+version: '3.8'
+
+# =============================================================================
+# SERVICES CONFIGURATION
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # FRONTEND SERVICE - Next.js Web Application
+  # ---------------------------------------------------------------------------
+  #
+  # Purpose: Serves the user-facing web portal for ScamAware Jersey.
+  # This is where Jersey residents interact with scam awareness content,
+  # report scams, and access AI-powered scam detection features.
+  #
+  # Key Features:
+  # - Server-side rendering for SEO and performance
+  # - React-based interactive UI components
+  # - Hot-reload enabled in development via volume mount
+  #
+  # Customization:
+  # - Change NODE_ENV to 'production' for production builds
+  # - Adjust NEXT_PUBLIC_* variables for client-side configuration
+  # ---------------------------------------------------------------------------
+  frontend:
+    # Build configuration - uses the Dockerfile in ./frontend directory
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      # Build arguments can be passed here if needed
+      args:
+        - NODE_ENV=${NODE_ENV:-development}
+
+    # Container naming for easier identification in logs and commands
+    container_name: scamaware-frontend
+
+    # Port mapping: host:container
+    # Access the frontend at http://localhost:3000 when nginx is bypassed
+    ports:
+      - "3000:3000"
+
+    # Volume mounts for development
+    # The src directory is mounted for hot-reload - changes reflect immediately
+    # Note: node_modules should NOT be mounted to avoid platform-specific issues
+    volumes:
+      # Hot-reload mount: local src changes are immediately reflected in container
+      # This dramatically improves developer experience during active development
+      - ./frontend/src:/app/src:delegated
+      # Mount public assets for easy updates without rebuild
+      - ./frontend/public:/app/public:delegated
+
+    # Environment variables
+    # Uses .env file from frontend directory for sensitive/configurable values
+    env_file:
+      - ./frontend/.env
+
+    # Additional environment variables with defaults
+    # These override any values in the .env file
+    environment:
+      # Node environment - affects build optimization and error handling
+      - NODE_ENV=${NODE_ENV:-development}
+      # API endpoint for guardrails service (internal Docker network)
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      # Internal API URL for server-side requests (uses Docker network)
+      - API_INTERNAL_URL=${API_INTERNAL_URL:-http://guardrails:8000}
+      # Watchpack polling for file changes (needed for some Docker/Windows setups)
+      - WATCHPACK_POLLING=${WATCHPACK_POLLING:-true}
+      # Disable Next.js telemetry in development
+      - NEXT_TELEMETRY_DISABLED=1
+
+    # Service dependencies - frontend waits for guardrails to be healthy
+    depends_on:
+      guardrails:
+        condition: service_healthy
+
+    # Health check configuration
+    # Verifies the Next.js server is responding to requests
+    healthcheck:
+      # Test the Next.js server health endpoint or main page
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      # How often to run the health check
+      interval: 30s
+      # How long to wait for the health check to complete
+      timeout: 10s
+      # Number of consecutive failures before marking unhealthy
+      retries: 3
+      # Time to wait before starting health checks (allows for startup)
+      start_period: 40s
+
+    # Restart policy - automatically restart unless manually stopped
+    # This ensures the service recovers from crashes during development
+    restart: unless-stopped
+
+    # Network configuration - connects to the shared application network
+    networks:
+      - scamaware-network
+
+    # Resource limits (optional, uncomment to enforce)
+    # Useful for simulating production-like resource constraints
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '1.0'
+    #       memory: 1G
+    #     reservations:
+    #       cpus: '0.25'
+    #       memory: 256M
+
+  # ---------------------------------------------------------------------------
+  # GUARDRAILS SERVICE - FastAPI Backend & AI Safety Layer
+  # ---------------------------------------------------------------------------
+  #
+  # Purpose: Provides the API backend for ScamAware Jersey, including:
+  # - AI guardrails to ensure safe, appropriate LLM responses
+  # - Scam detection and classification endpoints
+  # - User report handling and processing
+  # - Rate limiting and abuse prevention
+  #
+  # This service acts as an intermediary between the frontend and ollama,
+  # applying safety filters and business logic to all AI interactions.
+  #
+  # Key Features:
+  # - FastAPI for high-performance async API handling
+  # - Pydantic models for request/response validation
+  # - Integration with ollama for LLM inference
+  # - Hot-reload enabled in development via volume mount
+  #
+  # Customization:
+  # - Adjust LOG_LEVEL for more/less verbose logging
+  # - Configure RATE_LIMIT_* variables for API throttling
+  # ---------------------------------------------------------------------------
+  guardrails:
+    # Build configuration - uses the Dockerfile in ./guardrails directory
+    build:
+      context: ./guardrails
+      dockerfile: Dockerfile
+      args:
+        - ENVIRONMENT=${ENVIRONMENT:-development}
+
+    # Container naming for easier identification
+    container_name: scamaware-guardrails
+
+    # Port mapping for direct API access (bypassing nginx)
+    # Useful for API testing and debugging
+    ports:
+      - "8000:8000"
+
+    # Volume mounts for development
+    # The entire guardrails directory is mounted for hot-reload
+    volumes:
+      # Hot-reload mount: all Python changes are immediately reflected
+      # uvicorn's --reload flag watches for file changes
+      - ./guardrails:/app:delegated
+      # Exclude virtual environment to avoid platform conflicts
+      # This is handled by the container's own venv
+
+    # Environment variables from .env file
+    env_file:
+      - ./guardrails/.env
+
+    # Additional environment variables with defaults
+    environment:
+      # Application environment mode
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+      # Logging verbosity: DEBUG, INFO, WARNING, ERROR, CRITICAL
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      # Ollama service URL (internal Docker network)
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      # Default model to use for inference
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama2}
+      # API rate limiting configuration
+      - RATE_LIMIT_REQUESTS=${RATE_LIMIT_REQUESTS:-100}
+      - RATE_LIMIT_PERIOD=${RATE_LIMIT_PERIOD:-60}
+      # CORS configuration for frontend access
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:80}
+      # Enable hot-reload for FastAPI/uvicorn
+      - RELOAD=${RELOAD:-true}
+
+    # Service dependencies - guardrails waits for ollama to be healthy
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+    # Health check configuration
+    # Verifies the FastAPI server is responding
+    healthcheck:
+      # Test the FastAPI health endpoint
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Network configuration
+    networks:
+      - scamaware-network
+
+  # ---------------------------------------------------------------------------
+  # OLLAMA SERVICE - Local LLM Inference Server
+  # ---------------------------------------------------------------------------
+  #
+  # Purpose: Hosts and serves Large Language Models locally for:
+  # - Scam message analysis and classification
+  # - Generating educational content about scams
+  # - Powering the AI chatbot for user queries
+  #
+  # Why Ollama:
+  # - Runs models locally for data privacy (no external API calls)
+  # - Supports various open-source models (Llama, Mistral, etc.)
+  # - Simple REST API compatible with OpenAI format
+  # - Efficient model management and GPU acceleration
+  #
+  # GPU Support:
+  # - Configured for optional NVIDIA GPU passthrough
+  # - Falls back gracefully to CPU if GPU unavailable
+  # - Significantly faster inference with GPU acceleration
+  #
+  # Model Management:
+  # - Models are persisted in the ollama_data volume
+  # - Pull models: docker-compose exec ollama ollama pull llama2
+  # - List models: docker-compose exec ollama ollama list
+  #
+  # Customization:
+  # - OLLAMA_NUM_PARALLEL: concurrent inference requests (memory dependent)
+  # - OLLAMA_MAX_LOADED_MODELS: models kept in memory (VRAM dependent)
+  # ---------------------------------------------------------------------------
+  ollama:
+    # Official ollama Docker image
+    image: ollama/ollama:latest
+
+    # Container naming
+    container_name: scamaware-ollama
+
+    # Port mapping for direct ollama API access
+    # Useful for model management and debugging
+    ports:
+      - "11434:11434"
+
+    # Persistent volume for model storage
+    # Models are large (several GB) - persisting them avoids re-downloads
+    volumes:
+      # Named volume for ollama data (models, configuration)
+      - ollama_data:/root/.ollama
+
+    # Environment variables for ollama configuration
+    environment:
+      # Number of parallel inference requests to handle
+      # Higher values need more memory; adjust based on available resources
+      # Default: 4 for development, reduce for memory-constrained systems
+      - OLLAMA_NUM_PARALLEL=${OLLAMA_NUM_PARALLEL:-4}
+
+      # Maximum number of models to keep loaded in memory
+      # More models = faster switching but higher memory usage
+      # Default: 1 for development to minimize memory footprint
+      - OLLAMA_MAX_LOADED_MODELS=${OLLAMA_MAX_LOADED_MODELS:-1}
+
+      # Host binding - allow connections from other containers
+      - OLLAMA_HOST=0.0.0.0
+
+      # Optional: Limit VRAM usage (in MB), useful for shared GPU systems
+      # - OLLAMA_GPU_MEMORY_LIMIT=${OLLAMA_GPU_MEMORY_LIMIT:-4096}
+
+    # GPU passthrough configuration (optional)
+    # This section enables NVIDIA GPU acceleration when available
+    # Docker will gracefully degrade to CPU if GPU is unavailable
+    deploy:
+      resources:
+        reservations:
+          devices:
+            # Request GPU access - driver: nvidia enables CUDA support
+            # count: all uses all available GPUs; use count: 1 for single GPU
+            # capabilities: [gpu] specifies GPU compute capability needed
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    # Health check configuration
+    # Verifies ollama API is responding and ready for inference
+    healthcheck:
+      # Test the ollama API endpoint
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      # Longer start period - ollama needs time to load models
+      start_period: 60s
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Network configuration
+    networks:
+      - scamaware-network
+
+  # ---------------------------------------------------------------------------
+  # NGINX SERVICE - Reverse Proxy & Load Balancer
+  # ---------------------------------------------------------------------------
+  #
+  # Purpose: Provides a unified entry point for all services:
+  # - Routes requests to appropriate backend services
+  # - Handles SSL termination (when configured)
+  # - Serves static assets efficiently
+  # - Provides caching and compression
+  #
+  # Routing Configuration:
+  # - / and /static/* -> frontend:3000 (web application)
+  # - /api/* -> guardrails:8000 (API endpoints)
+  # - /ollama/* -> ollama:11434 (optional direct LLM access)
+  #
+  # Why nginx:
+  # - Industry-standard reverse proxy
+  # - Excellent performance and low resource usage
+  # - Flexible configuration for various routing needs
+  # - Easy SSL/TLS configuration for production
+  #
+  # Production Considerations:
+  # - Add SSL certificates for HTTPS
+  # - Configure rate limiting at nginx level
+  # - Enable gzip compression for responses
+  # - Add security headers (CSP, HSTS, etc.)
+  #
+  # Customization:
+  # - Edit ./nginx/nginx.conf for routing changes
+  # - Mount additional configs in ./nginx/conf.d/
+  # ---------------------------------------------------------------------------
+  nginx:
+    # Official nginx Alpine image (minimal footprint)
+    image: nginx:alpine
+
+    # Container naming
+    container_name: scamaware-nginx
+
+    # Port mapping - main entry point for the application
+    # Port 80 for HTTP; add 443 for HTTPS in production
+    ports:
+      - "80:80"
+      # Uncomment for HTTPS support in production
+      # - "443:443"
+
+    # Volume mounts for nginx configuration
+    volumes:
+      # Main nginx configuration file (read-only for security)
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      # Optional: Additional configuration files
+      # - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      # Optional: SSL certificates for HTTPS
+      # - ./nginx/certs:/etc/nginx/certs:ro
+      # Optional: Custom error pages
+      # - ./nginx/html:/usr/share/nginx/html:ro
+
+    # Service dependencies - nginx needs all backend services running
+    depends_on:
+      frontend:
+        condition: service_healthy
+      guardrails:
+        condition: service_healthy
+
+    # Health check configuration
+    # Verifies nginx is serving requests
+    healthcheck:
+      # Test nginx is responding on port 80
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Network configuration
+    networks:
+      - scamaware-network
+
+# =============================================================================
+# NETWORKS CONFIGURATION
+# =============================================================================
+#
+# Defines the Docker networks used by the services.
+# A shared bridge network allows all services to communicate using
+# container names as hostnames (e.g., http://guardrails:8000).
+#
+# Network Isolation:
+# - All services share the same network for internal communication
+# - External access is controlled via port mappings
+# - In production, consider separate networks for frontend/backend tiers
+# =============================================================================
+
+networks:
+  # Main application network
+  scamaware-network:
+    # Bridge driver for single-host deployment
+    # Use overlay driver for Docker Swarm multi-host deployment
+    driver: bridge
+
+    # Network naming for easier identification
+    name: scamaware-network
+
+    # Optional: Custom IPAM configuration
+    # Useful if you need predictable IP addresses
+    # ipam:
+    #   driver: default
+    #   config:
+    #     - subnet: 172.28.0.0/16
+
+# =============================================================================
+# VOLUMES CONFIGURATION
+# =============================================================================
+#
+# Defines named volumes for data persistence.
+# Named volumes survive container recreation and are easier to manage
+# than bind mounts for persistent data.
+#
+# Volume Management:
+# - List volumes: docker volume ls
+# - Inspect volume: docker volume inspect scamsite_ollama_data
+# - Remove volume: docker volume rm scamsite_ollama_data
+# - Backup: docker run --rm -v scamsite_ollama_data:/data -v $(pwd):/backup alpine tar cvf /backup/ollama_backup.tar /data
+# =============================================================================
+
+volumes:
+  # Ollama models and configuration storage
+  # This volume persists downloaded LLM models to avoid re-downloading
+  # Models can be several gigabytes - persistence is essential
+  ollama_data:
+    # Local driver stores data on the Docker host
+    driver: local
+
+    # Optional: Custom driver options for specific storage backends
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: /path/to/ollama/storage
+
+    # Volume naming for easier identification
+    name: scamaware-ollama-data
+
+# =============================================================================
+# ADDITIONAL NOTES FOR MAINTAINERS
+# =============================================================================
+#
+# DEVELOPMENT WORKFLOW:
+# ---------------------
+# 1. Start services: docker-compose up -d
+# 2. View logs: docker-compose logs -f [service_name]
+# 3. Restart service: docker-compose restart [service_name]
+# 4. Rebuild after Dockerfile changes: docker-compose up -d --build [service_name]
+# 5. Shell into container: docker-compose exec [service_name] /bin/sh
+#
+# PULLING OLLAMA MODELS:
+# ----------------------
+# After starting the ollama service, pull required models:
+#   docker-compose exec ollama ollama pull llama2
+#   docker-compose exec ollama ollama pull mistral
+#
+# ENVIRONMENT CUSTOMIZATION:
+# --------------------------
+# Create a .env file in the scamsite root directory to override defaults:
+#   NODE_ENV=production
+#   LOG_LEVEL=WARNING
+#   OLLAMA_MODEL=mistral
+#   OLLAMA_NUM_PARALLEL=2
+#
+# PRODUCTION DEPLOYMENT:
+# ----------------------
+# For production, consider:
+# 1. Remove volume mounts for hot-reload (use built images)
+# 2. Add SSL certificates to nginx
+# 3. Increase health check intervals to reduce overhead
+# 4. Add resource limits (cpus, memory) to all services
+# 5. Use Docker secrets for sensitive environment variables
+# 6. Consider using Docker Swarm or Kubernetes for orchestration
+#
+# TROUBLESHOOTING:
+# ----------------
+# - Service won't start: Check logs with docker-compose logs [service]
+# - Health check failing: Increase start_period or check service configuration
+# - Network issues: Verify services are on the same network
+# - Volume permission errors: Check file ownership and permissions
+# - GPU not detected: Ensure nvidia-docker2 is installed and configured
+#
+# =============================================================================

@@ -1,0 +1,198 @@
+# =============================================================================
+# ScamAware Jersey Guardrails Service - Docker Ignore File
+# =============================================================================
+#
+# This file specifies patterns for files and directories that should be
+# excluded when building the Docker image. Excluding unnecessary files:
+#
+# 1. Reduces build context size (faster builds)
+# 2. Prevents sensitive files from being included in the image
+# 3. Avoids cache invalidation from irrelevant file changes
+# 4. Keeps the final image smaller and more secure
+#
+# =============================================================================
+
+# =============================================================================
+# Source Control
+# =============================================================================
+# Never include version control files in Docker images. These contain
+# repository history and potentially sensitive information.
+# =============================================================================
+.git
+.gitignore
+.gitattributes
+.github
+
+# =============================================================================
+# Python Bytecode and Cache
+# =============================================================================
+# Python bytecode files are platform-specific and will be regenerated.
+# Including them can cause issues and bloats the image.
+# =============================================================================
+__pycache__
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+
+# =============================================================================
+# Virtual Environments
+# =============================================================================
+# Virtual environments should never be copied into containers. Dependencies
+# are installed fresh in the Docker build process.
+# =============================================================================
+venv
+.venv
+env
+.env
+ENV
+env.bak
+venv.bak
+
+# =============================================================================
+# Environment and Configuration Files
+# =============================================================================
+# Environment files often contain secrets and should never be baked into
+# images. Use Docker secrets or environment variables at runtime instead.
+# =============================================================================
+.env
+.env.local
+.env.*.local
+*.env
+.env.example
+
+# =============================================================================
+# IDE and Editor Files
+# =============================================================================
+# Editor-specific files and directories are not needed in the container
+# and may contain local paths or user-specific settings.
+# =============================================================================
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings
+*.sublime-project
+*.sublime-workspace
+
+# =============================================================================
+# Testing and Coverage
+# =============================================================================
+# Test files and coverage reports are not needed in production images.
+# Keep the image focused on runtime requirements only.
+# =============================================================================
+tests
+test
+*_test.py
+test_*.py
+conftest.py
+.pytest_cache
+.coverage
+htmlcov
+.tox
+.nox
+coverage.xml
+*.cover
+.hypothesis
+
+# =============================================================================
+# Documentation
+# =============================================================================
+# Documentation files are useful for developers but not needed at runtime.
+# Excluding them reduces image size.
+# =============================================================================
+docs
+*.md
+*.rst
+*.txt
+!requirements.txt
+LICENSE
+CHANGELOG
+CONTRIBUTING
+
+# =============================================================================
+# Build and Distribution Artifacts
+# =============================================================================
+# Build artifacts from previous builds should not be included.
+# They will be regenerated during the Docker build if needed.
+# =============================================================================
+build
+dist
+*.egg-info
+*.egg
+.eggs
+wheels
+pip-wheel-metadata
+*.manifest
+*.spec
+
+# =============================================================================
+# Docker Files
+# =============================================================================
+# Docker-related files are not needed inside the container itself.
+# =============================================================================
+Dockerfile
+Dockerfile.*
+docker-compose*.yml
+docker-compose*.yaml
+.docker
+.dockerignore
+
+# =============================================================================
+# CI/CD Configuration
+# =============================================================================
+# Continuous integration configuration files are not needed at runtime.
+# =============================================================================
+.travis.yml
+.gitlab-ci.yml
+.circleci
+Jenkinsfile
+azure-pipelines.yml
+.github/workflows
+
+# =============================================================================
+# Logs and Temporary Files
+# =============================================================================
+# Log files and temporary files should never be included in images.
+# Logs should be written to stdout/stderr in containers.
+# =============================================================================
+*.log
+logs
+tmp
+temp
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# =============================================================================
+# OS-specific Files
+# =============================================================================
+# Operating system files that may be accidentally included should be excluded.
+# =============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# =============================================================================
+# Secrets and Credentials
+# =============================================================================
+# CRITICAL: Never include secrets, keys, or credentials in Docker images.
+# Use Docker secrets, environment variables, or secret management tools.
+# =============================================================================
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets
+credentials
+*.secret

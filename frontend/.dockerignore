@@ -1,0 +1,157 @@
+# =============================================================================
+# ScamAware Jersey - Frontend .dockerignore
+# =============================================================================
+# This file specifies which files and directories should be excluded from
+# the Docker build context. Excluding unnecessary files:
+# 1. Speeds up the build by reducing context transfer size
+# 2. Prevents sensitive files from being included in the image
+# 3. Avoids cache invalidation from irrelevant file changes
+# =============================================================================
+
+# =============================================================================
+# Dependencies
+# =============================================================================
+# Exclude node_modules - dependencies are installed fresh in the container
+# This ensures:
+# - Consistent builds across different development environments
+# - Native modules are compiled for the container's architecture (Linux/Alpine)
+# - No accidental inclusion of development-only dependencies
+node_modules
+**/node_modules
+
+# =============================================================================
+# Build Output
+# =============================================================================
+# Exclude local build artifacts - the container builds its own
+# Including these would:
+# - Waste space transferring files that will be rebuilt
+# - Potentially cause architecture mismatches
+# - Interfere with clean builds
+.next
+out
+build
+dist
+
+# =============================================================================
+# Version Control
+# =============================================================================
+# Git history and configuration are not needed in the container
+# These can be quite large and serve no purpose at runtime
+.git
+.gitignore
+.gitattributes
+
+# =============================================================================
+# IDE and Editor Configuration
+# =============================================================================
+# Editor-specific files are only needed for development
+# They add unnecessary size and may contain personal configurations
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# =============================================================================
+# Docker Configuration
+# =============================================================================
+# These files are used to BUILD the image, not run it
+# Including them creates unnecessary layers and potential confusion
+Dockerfile
+Dockerfile.*
+docker-compose*.yml
+docker-compose*.yaml
+.docker
+.dockerignore
+
+# =============================================================================
+# Documentation
+# =============================================================================
+# Documentation is valuable but not needed for the running application
+# Excluding it reduces image size
+README.md
+README
+CHANGELOG.md
+CONTRIBUTING.md
+docs
+*.md
+
+# =============================================================================
+# Testing
+# =============================================================================
+# Test files and coverage reports are for development only
+# They should never be included in production images
+__tests__
+*.test.js
+*.test.ts
+*.test.jsx
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.jsx
+*.spec.tsx
+coverage
+.nyc_output
+jest.config.*
+vitest.config.*
+playwright.config.*
+cypress
+cypress.config.*
+e2e
+
+# =============================================================================
+# Environment and Secrets
+# =============================================================================
+# CRITICAL: Never include environment files or secrets in Docker images
+# These may contain sensitive data like API keys, database passwords, etc.
+# Environment variables should be injected at runtime
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+secrets
+
+# =============================================================================
+# Logs and Temporary Files
+# =============================================================================
+# Runtime artifacts that should not be baked into the image
+# Each container should generate its own logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+tmp
+temp
+
+# =============================================================================
+# TypeScript Build Info
+# =============================================================================
+# TypeScript incremental compilation cache
+# Not needed in production and can cause issues
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# =============================================================================
+# Package Manager Files
+# =============================================================================
+# Lock files ARE needed (for npm ci), but these extras are not
+# yarn.lock is excluded if using npm
+yarn.lock
+pnpm-lock.yaml
+
+# =============================================================================
+# Miscellaneous
+# =============================================================================
+# Other files that don't belong in production images
+*.tar
+*.tar.gz
+*.zip
+*.rar
+Makefile
+LICENSE

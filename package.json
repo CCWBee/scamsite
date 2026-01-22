@@ -1,0 +1,28 @@
+{
+  "name": "scamaware-jersey",
+  "version": "0.1.0",
+  "description": "ScamAware Jersey - Anti-scam awareness portal with AI chatbot for Jersey residents",
+  "private": true,
+  "scripts": {
+    "dev": "./scripts/dev.sh",
+    "build": "./scripts/build.sh",
+    "clean": "./scripts/clean.sh",
+    "test": "./scripts/test.sh",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd guardrails && pre-commit run --all-files",
+    "typecheck": "cd frontend && npm run typecheck"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CCWBee/scamsite.git"
+  },
+  "keywords": [
+    "scam-awareness",
+    "jersey",
+    "chatbot",
+    "fraud-prevention"
+  ],
+  "author": "ScamAware Jersey Team",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,74 @@
+#!/usr/bin/env sh
+# =============================================================================
+# Pre-commit Git Hook for ScamAware Jersey Frontend
+# =============================================================================
+#
+# This hook runs automatically before every commit to ensure code quality.
+# It performs the following checks on staged files:
+#
+# 1. ESLint: Checks for code quality issues and potential bugs in .ts/.tsx files
+# 2. Prettier: Ensures consistent code formatting across all staged files
+# 3. TypeScript: Verifies type safety with the TypeScript compiler
+#
+# If any check fails, the commit will be blocked until issues are resolved.
+#
+# To bypass this hook in emergencies (NOT recommended):
+#   git commit --no-verify -m "your message"
+#
+# =============================================================================
+
+# Change to the frontend directory where our tools are installed
+cd frontend
+
+# -----------------------------------------------------------------------------
+# Step 1: Run lint-staged
+# -----------------------------------------------------------------------------
+# lint-staged runs ESLint and Prettier only on staged files, making it fast.
+# This catches linting errors and formatting issues before they enter the repo.
+#
+# Configuration is in package.json under the "lint-staged" key:
+#   - *.{ts,tsx}: ESLint + Prettier
+#   - *.{js,jsx,mjs,cjs}: ESLint + Prettier
+#   - *.{json,md,css,etc}: Prettier only
+
+echo "Running lint-staged on staged files..."
+npx lint-staged
+
+# Capture the exit code to determine if lint-staged passed
+LINT_STAGED_EXIT_CODE=$?
+
+if [ $LINT_STAGED_EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "lint-staged failed! Please fix the errors above before committing."
+  echo "Run 'npm run lint:fix' to auto-fix some issues."
+  exit 1
+fi
+
+# -----------------------------------------------------------------------------
+# Step 2: Run TypeScript type check
+# -----------------------------------------------------------------------------
+# This ensures the entire project type-checks correctly, not just staged files.
+# Type errors anywhere in the codebase could be caused by changes in staged files.
+#
+# The --noEmit flag means we only check types without generating output files.
+
+echo ""
+echo "Running TypeScript type check..."
+npm run typecheck
+
+# Capture the exit code to determine if type check passed
+TYPECHECK_EXIT_CODE=$?
+
+if [ $TYPECHECK_EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "TypeScript type check failed! Please fix the type errors above."
+  echo "Run 'npm run typecheck' to see all type errors."
+  exit 1
+fi
+
+# -----------------------------------------------------------------------------
+# All checks passed - allow the commit to proceed
+# -----------------------------------------------------------------------------
+echo ""
+echo "All pre-commit checks passed! Proceeding with commit..."
+exit 0

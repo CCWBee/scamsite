@@ -1,0 +1,235 @@
+# =============================================================================
+# ScamAware Jersey Guardrails Service - Ruff Configuration
+# =============================================================================
+#
+# Ruff is an extremely fast Python linter written in Rust that can replace
+# multiple tools: flake8, isort, pyupgrade, bandit, and more.
+#
+# This configuration is also mirrored in pyproject.toml under [tool.ruff].
+# This standalone file takes precedence and is useful for:
+# - Clear separation of linting config from project metadata
+# - Easy sharing across multiple Python projects
+# - More detailed comments and documentation
+#
+# Documentation: https://docs.astral.sh/ruff/configuration/
+# Rules Reference: https://docs.astral.sh/ruff/rules/
+#
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# GENERAL SETTINGS
+# -----------------------------------------------------------------------------
+
+# Line length - matches black's default for consistency
+# 88 characters is optimal for:
+# - Side-by-side diff viewing
+# - Comfortable reading on most monitors
+# - Reasonable line wrapping in most editors
+line-length = 88
+
+# Target Python version for syntax and feature checks
+# This affects which pyupgrade rules are applied and what syntax is allowed
+# Set to 3.11 to match our minimum Python version requirement
+target-version = "py311"
+
+# Files and directories to exclude from linting
+# These patterns are matched against the absolute file path
+extend-exclude = [
+    # Virtual environments
+    ".venv",
+    "venv",
+    "env",
+    # Build artifacts
+    "build",
+    "dist",
+    "*.egg-info",
+    # Cache directories
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    # IDE settings
+    ".vscode",
+    ".idea",
+    # Documentation builds
+    "docs/_build",
+]
+
+# Output format for linting results
+# Options: "text", "json", "junit", "grouped", "github", "gitlab"
+output-format = "grouped"
+
+# Show fixes that would be applied without actually applying them
+# Useful for reviewing what ruff would change
+show-fixes = true
+
+# -----------------------------------------------------------------------------
+# LINT SETTINGS
+# -----------------------------------------------------------------------------
+
+[lint]
+# Rule Selection
+# --------------
+# Select which rule sets to enable. Each letter/code represents a category:
+#
+# E  - pycodestyle Errors
+#      PEP 8 style guide violations (indentation, whitespace, etc.)
+#      Example: E501 = line too long, E302 = expected 2 blank lines
+#
+# W  - pycodestyle Warnings
+#      Less severe PEP 8 issues
+#      Example: W291 = trailing whitespace, W503 = line break before operator
+#
+# F  - Pyflakes
+#      Logical errors and common mistakes
+#      Example: F401 = imported but unused, F841 = assigned but never used
+#
+# I  - isort
+#      Import sorting and organization
+#      Example: I001 = unsorted imports, I002 = missing required import
+#
+# UP - pyupgrade
+#      Modernize Python syntax for newer versions
+#      Example: UP006 = use dict instead of Dict, UP035 = deprecated import
+#
+# B  - flake8-bugbear
+#      Catches common bugs and design problems
+#      Example: B006 = mutable default argument, B009 = getattr with constant
+#
+# C4 - flake8-comprehensions
+#      Suggests better list/dict/set comprehensions
+#      Example: C400 = unnecessary generator, C401 = unnecessary list comp
+#
+# Additional rule sets you might want to enable:
+# S  - flake8-bandit (security issues)
+# A  - flake8-builtins (shadowing builtins)
+# T20 - flake8-print (print statements)
+# SIM - flake8-simplify (simplification suggestions)
+# PTH - flake8-use-pathlib (prefer pathlib over os.path)
+
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "I",    # isort (import sorting)
+    "UP",   # pyupgrade (Python modernization)
+    "B",    # flake8-bugbear (common bugs)
+    "C4",   # flake8-comprehensions
+]
+
+# Rules to Ignore
+# ---------------
+# Some rules conflict with black or are too strict for our codebase.
+#
+# E501 - Line too long
+#        Black handles line length, so we let it manage wrapping.
+#        Ruff's E501 can conflict with black's formatting decisions.
+#
+# W503 - Line break before binary operator
+#        Deprecated and conflicts with black's formatting.
+#        Black prefers breaks before operators (which is PEP 8 compliant).
+#
+# E203 - Whitespace before ':'
+#        Black intentionally adds whitespace before ':' in slices.
+#        Example: x[1 : 2] is valid and black-formatted.
+
+ignore = [
+    "E501",   # line too long - black handles this
+    "E203",   # whitespace before ':' - conflicts with black slice formatting
+    # Note: W503 (line break before binary operator) doesn't exist in ruff
+    # as ruff follows PEP 8's current recommendation (breaks before operators)
+]
+
+# Allowed Confusable Characters
+# ----------------------------
+# Unicode characters that look similar to ASCII but are allowed
+# Useful for internationalization or specific use cases
+# allowed-confusables = ["'", "'"]
+
+# Per-File Ignores
+# ----------------
+# Ignore specific rules for specific files or directories
+# Useful for test files, migrations, or legacy code
+
+[lint.per-file-ignores]
+# Test files can have unused imports (fixtures) and assertions
+"tests/**/*.py" = [
+    "F401",   # unused imports (test fixtures)
+    "F811",   # redefinition of unused name (pytest fixtures)
+]
+
+# Init files often have unused imports for re-exporting
+"__init__.py" = [
+    "F401",   # unused imports (public API re-exports)
+]
+
+# -----------------------------------------------------------------------------
+# ISORT SETTINGS (Import Sorting)
+# -----------------------------------------------------------------------------
+
+[lint.isort]
+# These settings ensure isort-style import sorting that's compatible with black
+
+# Combine 'from' imports from the same module
+combine-as-imports = true
+
+# Force imports to be sorted within their sections
+force-sort-within-sections = true
+
+# Known first-party modules (your project's code)
+# This helps isort correctly categorize imports
+known-first-party = ["scamaware", "guardrails"]
+
+# Section order for imports
+# Ruff automatically handles: future, standard-library, third-party, first-party, local-folder
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+# Number of lines after imports before code begins
+lines-after-imports = 2
+
+# Note: lines-between-types is ignored when force-sort-within-sections=true
+# as all imports are sorted together rather than by type
+
+# -----------------------------------------------------------------------------
+# MCCABE COMPLEXITY (Optional)
+# -----------------------------------------------------------------------------
+
+[lint.mccabe]
+# Maximum cyclomatic complexity allowed
+# Lower = simpler, more maintainable code
+# 10 is a reasonable default; consider 5-7 for stricter standards
+max-complexity = 10
+
+# -----------------------------------------------------------------------------
+# FLAKE8-BUGBEAR SETTINGS
+# -----------------------------------------------------------------------------
+
+[lint.flake8-bugbear]
+# Extend immutable calls to include custom immutable types
+# Prevents mutable default argument issues
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Path"]
+
+# =============================================================================
+# QUICK REFERENCE
+# =============================================================================
+#
+# Run ruff manually:
+#   ruff check .                    # Check all files
+#   ruff check . --fix              # Check and auto-fix
+#   ruff check . --watch            # Watch mode (re-run on changes)
+#   ruff check path/to/file.py      # Check specific file
+#
+# Show which rules would match:
+#   ruff rule E501                  # Explain rule E501
+#   ruff linter                     # List all available linters
+#
+# Format code (alternative to black):
+#   ruff format .                   # Format all files
+#
+# =============================================================================
