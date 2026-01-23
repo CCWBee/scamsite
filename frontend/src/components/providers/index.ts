@@ -47,3 +47,10 @@ export {
 } from './ThemeProvider';
 
 export { useTheme } from './useTheme';
+
+// AI Disclaimer Provider exports (re-exported from disclaimers for convenience)
+export {
+  AIDisclaimerProvider,
+  useAIDisclaimer,
+  type AIDisclaimerProviderProps,
+} from '@/components/disclaimers';

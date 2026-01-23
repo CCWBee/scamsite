@@ -253,6 +253,32 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         </div>
       </div>
 
+      {/* AI Disclaimer Section */}
+      <div className="border-t border-navy-700 bg-navy-950">
+        <div className="mx-auto max-w-content px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
+            <Icon
+              name="AlertTriangle"
+              size="md"
+              className="text-amber-400 flex-shrink-0 mt-0.5"
+              aria-hidden
+            />
+            <div className="space-y-1">
+              <Text as="p" className="text-amber-300 text-sm font-bold">
+                AI Disclaimer
+              </Text>
+              <Text as="p" className="text-gray-300 text-xs leading-relaxed">
+                This website uses artificial intelligence technology which may produce inaccurate,
+                incomplete, or misleading information. AI-generated content should not be considered
+                professional advice. Always verify information with official sources. ScamAware Jersey
+                and its partners accept no liability for any decisions or actions taken based on
+                AI-generated content. If you are in an emergency, call 999.
+              </Text>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Bar */}
       <div className="border-t border-navy-700">
         <div className="mx-auto max-w-content px-4 py-4 sm:px-6 lg:px-8">
