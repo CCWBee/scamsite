@@ -12,6 +12,8 @@
  * - Close on Escape key press
  * - Prevents body scroll when open
  * - Full height, fixed position (z-modal: 1050)
+ * - Active state styling for current page
+ * - Highlighted emergency help link
  *
  * ## Accessibility
  * - role="dialog" with aria-modal="true"
@@ -28,15 +30,19 @@
  *   isOpen={isOpen}
  *   onClose={() => setIsOpen(false)}
  *   navItems={[
- *     { label: 'Home', href: '/', active: true },
+ *     { label: 'Home', href: '/' },
  *     { label: 'About', href: '/about' },
+ *     { label: 'Emergency Help', href: '/help/ive-been-scammed', highlight: true },
  *   ]}
  * />
  * ```
  */
 
+"use client";
+
 import React, { useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import type { NavItem } from "@/components/layout/Header";
@@ -64,6 +70,27 @@ export interface MobileNavProps {
    * Additional CSS classes to apply to the drawer container
    */
   className?: string;
+
+  /**
+   * The current pathname for active state detection.
+   * If not provided, will be auto-detected using usePathname().
+   */
+  currentPath?: string;
+}
+
+/**
+ * Determines if a navigation item is active based on the current path
+ * @param href - The navigation item's href
+ * @param currentPath - The current pathname
+ * @returns Whether the navigation item should be marked as active
+ */
+function isNavItemActive(href: string, currentPath: string): boolean {
+  // Exact match for home
+  if (href === "/") {
+    return currentPath === "/";
+  }
+  // For other routes, check if current path starts with the href
+  return currentPath.startsWith(href);
 }
 
 /**
@@ -86,16 +113,22 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
  * MobileNav Component
  *
  * A slide-in navigation drawer for mobile devices with full accessibility support.
+ * Automatically detects active navigation item based on current path.
  */
 export const MobileNav: React.FC<MobileNavProps> = ({
   isOpen,
   onClose,
   navItems,
   className = "",
+  currentPath,
 }) => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
+
+  // Get current pathname for active state detection
+  const pathname = usePathname();
+  const activePath = currentPath ?? pathname;
 
   /**
    * Handle Escape key press to close the drawer
@@ -241,34 +274,43 @@ export const MobileNav: React.FC<MobileNavProps> = ({
           {/* Navigation links */}
           <nav className="flex-1 overflow-y-auto py-4" aria-label="Mobile navigation">
             <ul className="space-y-1">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={handleNavLinkClick}
-                    className={`
-                      flex items-center justify-between px-4 py-3
-                      text-base font-medium
-                      transition-colors duration-[var(--transition-fast)]
-                      focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--color-trust-blue)]
-                      ${
-                        item.active
-                          ? "bg-[var(--color-navy-50)] text-[var(--color-navy)] border-l-4 border-[var(--color-navy)]"
-                          : "text-[var(--color-navy-700)] hover:bg-[var(--color-navy-50)] hover:text-[var(--color-navy)]"
-                      }
-                    `.trim()}
-                    aria-current={item.active ? "page" : undefined}
-                  >
-                    <span>{item.label}</span>
-                    <Icon
-                      name="ChevronRight"
-                      size="sm"
-                      className="text-[var(--color-navy-400)]"
-                      aria-hidden
-                    />
-                  </Link>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                const isActive = item.active ?? isNavItemActive(item.href, activePath);
+                const isHighlighted = item.highlight;
+
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={handleNavLinkClick}
+                      className={`
+                        flex items-center justify-between px-4 py-3
+                        text-base font-medium
+                        transition-colors duration-[var(--transition-fast)]
+                        focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--color-trust-blue)]
+                        ${
+                          isHighlighted
+                            ? isActive
+                              ? "bg-[var(--color-alert-red)] text-white border-l-4 border-[var(--color-alert-red-700)]"
+                              : "bg-[var(--color-alert-red-50)] text-[var(--color-alert-red-700)] hover:bg-[var(--color-alert-red)] hover:text-white"
+                            : isActive
+                              ? "bg-[var(--color-navy-50)] text-[var(--color-navy)] border-l-4 border-[var(--color-navy)]"
+                              : "text-[var(--color-navy-700)] hover:bg-[var(--color-navy-50)] hover:text-[var(--color-navy)]"
+                        }
+                      `.trim()}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      <span>{item.label}</span>
+                      <Icon
+                        name={isHighlighted ? "TriangleAlert" : "ChevronRight"}
+                        size="sm"
+                        className={isHighlighted ? "" : "text-[var(--color-navy-400)]"}
+                        aria-hidden
+                      />
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
