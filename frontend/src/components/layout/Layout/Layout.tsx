@@ -66,7 +66,6 @@ import React, { useState, useCallback } from 'react';
 import { Header, NavItem } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { MobileNav } from '@/components/layout/MobileNav';
-import { AIDisclaimerBanner } from '@/components/disclaimers';
 
 /**
  * Props for the Layout component
@@ -166,9 +165,6 @@ export const Layout: React.FC<LayoutProps> = ({
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* AI Disclaimer Banner - Always visible at top */}
-      <AIDisclaimerBanner />
-
       {/* Skip to Content Link - Accessibility */}
       <a
         href="#main-content"
