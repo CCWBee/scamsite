@@ -1,0 +1,69 @@
+OG Image Placeholder - Design Specifications
+============================================
+
+File: og-default.png
+
+Dimensions
+----------
+- Width: 1200px
+- Height: 630px
+- Aspect ratio: 1.91:1 (standard Open Graph image ratio)
+
+Color Scheme
+------------
+- Background: Navy (#1a1f3d) - Primary brand color
+- Text: White (#ffffff)
+- Accent elements: Trust Blue (#0066a1) or Alert Red (#c8102e) as appropriate
+
+Typography
+----------
+- Main title: "ScamAware Jersey" in white
+  - Font: Arial Bold or similar sans-serif
+  - Size: Large, prominent placement
+
+- Subtitle: "Protecting Jersey from scams"
+  - Font: Arial Regular
+  - Size: Medium, positioned below main title
+
+Branding Elements
+-----------------
+- Include JFSC-style branding elements for institutional trust
+- Consider adding:
+  - Shield or protection iconography
+  - Jersey island silhouette or reference
+  - Subtle pattern or gradient in background
+  - Professional, governmental aesthetic
+
+Layout Guidelines
+-----------------
+- Center-aligned text
+- Generous padding (minimum 60px from edges)
+- Clear visual hierarchy
+- Ensure text is readable at small thumbnail sizes
+- Safe zone: Keep important content within center 1080x540px area
+
+Technical Requirements
+----------------------
+- Format: PNG (for best quality and transparency support)
+- File size: Optimize for web (aim for < 200KB)
+- Color space: sRGB
+
+Usage
+-----
+This image will appear when the site is shared on:
+- Facebook
+- Twitter/X
+- LinkedIn
+- WhatsApp
+- iMessage
+- Slack
+- Discord
+- And other platforms that support Open Graph
+
+Note
+----
+This placeholder file describes the specifications for the og-default.png image.
+The actual PNG file should be created by a designer following these specifications.
+
+Once the PNG is created, place it at:
+frontend/public/og-default.png
